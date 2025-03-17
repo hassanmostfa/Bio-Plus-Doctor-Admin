@@ -1,16 +1,12 @@
 import React from 'react';
 import { Icon } from '@chakra-ui/react';
-import {
-  MdHome,
-  MdOutlineShoppingCart,
-  MdInventory,
-  MdAssignment,
-} from 'react-icons/md';
+import {MdHome,} from 'react-icons/md';
 
 import { MdAdminPanelSettings } from 'react-icons/md';
 import { TiMinus } from 'react-icons/ti';
 import { FaRegCalendarDays } from 'react-icons/fa6';
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { LuClipboardList } from "react-icons/lu";
 
 // Admin Imports
 import MainDashboard from 'views/admin/default';
@@ -18,16 +14,12 @@ import Admins from 'views/admin/admins/Admins';
 import AddAdmin from 'views/admin/admins/AddAdmin';
 import Roles from 'views/admin/roles/Roles';
 import AddRole from 'views/admin/roles/AddRole';
-import Presecibtions from 'views/admin/presecibtions/Presecibtions';
-import AddPresecibtions from 'views/admin/presecibtions/AddPresecibtions';
 import ProtectedRoute from 'components/protectedRoute/ProtectedRoute';
 import EditRole from 'views/admin/roles/EditRole';
-import Products from 'views/admin/products/Products';
-import AddProduct from 'views/admin/products/AddProduct';
 import EditAdmin from 'views/admin/admins/EditAdmin';
 import ShowAdmin from 'views/admin/admins/ShowAdmin';
-import Orders from 'views/admin/orders/Orders';
-
+import Appointments from 'views/admin/appointments/Appointments';
+import Calendar from 'views/admin/calendar/Calendar';
 
 const routes = [
   {
@@ -112,50 +104,24 @@ const routes = [
   },
   /* End Admin Routes */
   {
-    name: 'Products',
+    name: 'Calendar',
     layout: '/admin',
-    path: '/products',
-    icon: <Icon as={MdInventory} width="20px" height="20px" color="inherit" />,
-    component: <Products />,
+    path: '/calendar',
+    component: <Calendar />,
+    icon: <Icon as={FaRegCalendarDays} width="20px" height="20px" color="inherit" />,
+    
     showInSidebar: true,
   },
-  {
-    name: 'Products',
+
+{
+    name: 'Appointments',
     layout: '/admin',
-    path: '/add-product',
-    component: <AddProduct />,
-    showInSidebar: false,
-  },
-  {
-    name: 'Orders',
-    layout: '/admin',
-    path: '/orders',
+    path: '/appointments',
     icon: (
-      <Icon
-        as={MdOutlineShoppingCart}
-        width="20px"
-        height="20px"
-        color="inherit"
-      />
+      <Icon as={LuClipboardList} width="20px" height="20px" color="inherit" />
     ),
-    component: <Orders />,
+    component: <Appointments />,
     showInSidebar: true,
-  },
-  {
-    name: 'Prescription',
-    layout: '/admin',
-    path: '/prescription',
-    icon: <Icon as={MdAssignment} width="20px" height="20px" color="inherit" />,
-    component: <Presecibtions />,
-    showInSidebar: true,
-  },
-  {
-    name: 'Prescription',
-    layout: '/admin',
-    path: '/add-prescription',
-    icon: <Icon as={MdAssignment} width="20px" height="20px" color="inherit" />,
-    component: <AddPresecibtions />,
-    showInSidebar: false,
   },
   
   {
