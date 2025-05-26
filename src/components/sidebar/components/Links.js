@@ -34,8 +34,8 @@ export function SidebarLinks(props) {
 
   // Handle logout
   const handleLogout = () => {
-    // Clear user session or token (example: remove token from localStorage)
-    localStorage.removeItem("token"); // Adjust this based on your authentication logic
+    // Clear user session or doctor_token (example: remove doctor_token from localStorage)
+    localStorage.removeItem("doctor_token"); // Adjust this based on your authentication logic
 
     // Redirect to the login page
     navigate("/admin/auth/sign-in"); // Adjust the path to your login route

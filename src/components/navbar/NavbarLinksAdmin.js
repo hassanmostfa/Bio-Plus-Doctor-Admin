@@ -48,8 +48,10 @@ export default function HeaderLinks(props) {
 
    // Handle Logout
    const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('doctor_token');
+    localStorage.removeItem('doctor');
     window.location.reload();
+    window.location.href = '/admin/auth/sign-in';
    }
   return (
     <Flex

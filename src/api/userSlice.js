@@ -12,12 +12,12 @@ export const apiService = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
     prepareHeaders: (headers) => {
-      // Get the token from localStorage (or Redux state)
-      const token = localStorage.getItem("token");
+      // Get the doctor_token from localStorage (or Redux state)
+      const doctor_token = localStorage.getItem("doctor_token");
 
-      // If a token exists, add it to the headers
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+      // If a doctor_token exists, add it to the headers
+      if (doctor_token) {
+        headers.set("Authorization", `Bearer ${doctor_token}`);
       }
 
       return headers;
@@ -28,7 +28,7 @@ export const apiService = createApi({
     // Example login request (modify this as per your API endpoint)
     loginUser: builder.mutation({
       query: (userCredentials) => ({
-        url: "/auth/login",
+        url: "/client/auth/client-login",
         method: "POST",
         body: userCredentials, // Sending user credentials (email and password)
       }),

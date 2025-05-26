@@ -54,7 +54,7 @@ function Sidebar(props) {
         return {
           ...route,
           onClick: () => {
-            localStorage.removeItem("token"); // Remove token
+            localStorage.removeItem("doctor_token"); // Remove doctor_token
             navigate("/admin/auth/sign-in"); // Redirect to login page
           },
         };
@@ -108,7 +108,7 @@ export function SidebarResponsive(props) {
         return {
           ...route,
           onClick: () => {
-            localStorage.removeItem("token"); // Remove token
+            localStorage.removeItem("doctor_token"); // Remove doctor_token
             navigate("/admin/auth/sign-in"); // Redirect to login page
           },
         };
