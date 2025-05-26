@@ -36,7 +36,7 @@ import Swal from "sweetalert2";
 const DoctorSchedule = () => {
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
-    doctorId: "",
+    doctorId: JSON.parse(localStorage.getItem("doctor"))?.id  ,
     isOnline: "",
     clinicId: "",
     dayOfWeek: "",
@@ -79,7 +79,7 @@ const DoctorSchedule = () => {
 
   const resetFilters = () => {
     setFilters({
-      doctorId: "",
+      doctorId: JSON.parse(localStorage.getItem("doctor"))?.id  ,
       isOnline: "",
       clinicId: "",
       dayOfWeek: "",
@@ -137,7 +137,7 @@ const DoctorSchedule = () => {
             {/* Filters Section */}
             <Box mb={4} p={4} borderWidth={1} borderRadius="md">
               <Grid templateColumns="repeat(4, 1fr)" gap={4}>
-                <FormControl>
+                {/* <FormControl>
                   <FormLabel>Doctor</FormLabel>
                   <Select
                     value={filters.doctorId}
@@ -150,7 +150,7 @@ const DoctorSchedule = () => {
                       </option>
                     ))}
                   </Select>
-                </FormControl>
+                </FormControl> */}
 
                 <FormControl>
                   <FormLabel>Consultation Type</FormLabel>
@@ -164,7 +164,7 @@ const DoctorSchedule = () => {
                   </Select>
                 </FormControl>
 
-                <FormControl>
+                {/* <FormControl>
                   <FormLabel>Clinic</FormLabel>
                   <Select
                     value={filters.clinicId}
@@ -177,7 +177,7 @@ const DoctorSchedule = () => {
                       </option>
                     ))}
                   </Select>
-                </FormControl>
+                </FormControl> */}
 
                 <FormControl>
                   <FormLabel>Day of Week</FormLabel>

@@ -8,6 +8,7 @@ import { FaRegCalendarDays } from 'react-icons/fa6';
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { LuClipboardList } from "react-icons/lu";
 import { MdSchedule } from "react-icons/md";
+import { MdEventBusy } from "react-icons/md";
 
 // Admin Imports
 import MainDashboard from 'views/admin/default';
@@ -25,6 +26,9 @@ import AppointmentsCalendar from 'views/admin/appointments';
 import DoctorSchedule from 'views/admin/doctorSchedule';
 import AddDoctorSchedule from 'views/admin/doctorSchedule/AddDoctorSchedule';
 import EditDoctorSchedule from 'views/admin/doctorSchedule/EditDoctorSchedule';
+import DoctorScheduleException from "views/admin/doctorScheduleException/index";
+import AddDoctorScheduleException from "views/admin/doctorScheduleException/AddDoctorScheduleException";
+import EditDoctorScheduleException from "views/admin/doctorScheduleException/EditDoctorScheduleException";
 
 const routes = [
   {
@@ -146,6 +150,30 @@ const routes = [
     path: '/doctor-schedules/edit/:id',
     component: <EditDoctorSchedule />,
     showInSidebar: false,
+  },
+  {
+    name: "Doctor Schedule Exceptions",
+    layout: "/admin",
+    path: "/doctor-schedule-exceptions",
+    icon: <Icon as={MdEventBusy} width="20px" height="20px" color="inherit" />,
+    component: <DoctorScheduleException />,
+    showInSidebar: true,
+
+
+  },
+  {
+    name: "Add",
+    layout: "/admin",
+    path: "/doctor-schedule-exceptions/add",
+    icon: <Icon as={MdEventBusy} width="20px" height="20px" color="inherit" />,
+    component: <AddDoctorScheduleException />,
+  },
+  {
+    name: "Edit",
+    layout: "/admin",
+    path: "/doctor-schedule-exceptions/edit/:id",
+    icon: <Icon as={MdEventBusy} width="20px" height="20px" color="inherit" />,
+    component: <EditDoctorScheduleException />,
   },
 // {
 //     name: 'Appointments',

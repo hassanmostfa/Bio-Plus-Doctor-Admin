@@ -21,7 +21,8 @@ import { useGetClinicsQuery } from "api/clinicSlice";
 const AppointmentsCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [filters, setFilters] = useState({
-    doctorId: "",
+    doctorId: JSON.parse(localStorage.getItem("doctor"))?.id  ,
+    // doctorId:"64090c3c-8dff-43b2-b613-c6535cf8c6a2"  ,
     clinicId: "",
     fromDate: "",
     toDate: "",
@@ -103,7 +104,7 @@ const AppointmentsCalendar = () => {
               Filters
             </Text>
             <Flex direction="column" gap={4}>
-              <Select
+              {/* <Select
                 name="doctorId"
                 value={filters.doctorId}
                 onChange={handleFilterChange}
@@ -114,9 +115,9 @@ const AppointmentsCalendar = () => {
                     {doctor.fullName}
                   </option>
                 ))}
-              </Select>
+              </Select> */}
 
-              <Select
+              {/* <Select
                 name="clinicId"
                 value={filters.clinicId}
                 onChange={handleFilterChange}
@@ -127,7 +128,7 @@ const AppointmentsCalendar = () => {
                     {clinic.name}
                   </option>
                 ))}
-              </Select>
+              </Select> */}
 
               <Select
                 name="consultationType"
@@ -169,7 +170,9 @@ const AppointmentsCalendar = () => {
           </Box>
         </GridItem>
         <GridItem colSpan={{ base: 12, lg: 9 }}>
+
           <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
+
             <Calendar
               onChange={handleDateChange}
               value={selectedDate}

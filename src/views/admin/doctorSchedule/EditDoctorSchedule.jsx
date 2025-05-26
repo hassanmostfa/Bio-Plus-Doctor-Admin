@@ -137,7 +137,7 @@ const EditDoctorSchedule = () => {
             </Text>
             <form onSubmit={handleSubmit}>
               <VStack spacing={4} align="stretch">
-                <FormControl isRequired>
+                {/* <FormControl isRequired>
                   <FormLabel>Doctor</FormLabel>
                   <Select
                     name="doctorId"
@@ -151,7 +151,7 @@ const EditDoctorSchedule = () => {
                       </option>
                     ))}
                   </Select>
-                </FormControl>
+                </FormControl> */}
 
                 <FormControl>
                   <FormLabel>Online Consultation</FormLabel>
