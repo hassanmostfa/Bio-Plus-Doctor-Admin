@@ -22,7 +22,7 @@ const EditDoctorScheduleException = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [formData, setFormData] = useState({
-    doctorId: "",
+    doctorId: JSON.parse(localStorage.getItem("doctor"))?.id,
     scheduleId: "",
     exceptionDate: "",
     isCancelled: true,
@@ -30,7 +30,7 @@ const EditDoctorScheduleException = () => {
 
   const { data: exception, isLoading } = useGetDoctorScheduleExceptionByIdQuery(id);
   const { data: doctors } = useGetDoctorsQuery();
-  const { data: schedules } = useGetDoctorSchedulesQuery({ limit: 1000 });
+  const { data: schedules } = useGetDoctorSchedulesQuery({ limit: 1000, doctorId: JSON.parse(localStorage.getItem("doctor"))?.id });
   const [updateException] = useUpdateDoctorScheduleExceptionMutation();
 
   useEffect(() => {
@@ -55,8 +55,14 @@ const EditDoctorScheduleException = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Create a new object without scheduleId if it's empty
+    const submitData = { ...formData };
+    if (!submitData.scheduleId) {
+      delete submitData.scheduleId;
+    }
+    
     try {
-      await updateException({ id, data: formData }).unwrap();
+      await updateException({ id, data: submitData }).unwrap();
       Swal.fire({
         title: "Success!",
         text: "Schedule exception updated successfully",
@@ -87,7 +93,7 @@ const EditDoctorScheduleException = () => {
             </Text>
             <form onSubmit={handleSubmit}>
               <VStack spacing={4} align="stretch">
-                <FormControl isRequired>
+                {/* <FormControl isRequired>
                   <FormLabel>Doctor</FormLabel>
                   <Select
                     name="doctorId"
@@ -101,7 +107,7 @@ const EditDoctorScheduleException = () => {
                       </option>
                     ))}
                   </Select>
-                </FormControl>
+                </FormControl> */}
 
                 <FormControl>
                   <FormLabel>Schedule (Optional)</FormLabel>

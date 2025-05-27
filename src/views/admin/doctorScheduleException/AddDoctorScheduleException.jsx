@@ -21,14 +21,14 @@ import Swal from "sweetalert2";
 const AddDoctorScheduleException = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    doctorId: "",
+    doctorId: JSON.parse(localStorage.getItem("doctor"))?.id,
     scheduleId: "",
     exceptionDate: "",
     isCancelled: true,
   });
 
   const { data: doctors } = useGetDoctorsQuery();
-  const { data: schedules } = useGetDoctorSchedulesQuery({ limit: 1000 });
+  const { data: schedules } = useGetDoctorSchedulesQuery({ limit: 1000, doctorId: JSON.parse(localStorage.getItem("doctor"))?.id });
   const [createException] = useCreateDoctorScheduleExceptionMutation();
 
   const handleInputChange = (e) => {
@@ -42,8 +42,14 @@ const AddDoctorScheduleException = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Create a new object without scheduleId if it's empty
+    const submitData = { ...formData };
+    if (!submitData.scheduleId) {
+      delete submitData.scheduleId;
+    }
+    
     try {
-      await createException(formData).unwrap();
+      await createException(submitData).unwrap();
       Swal.fire({
         title: "Success!",
         text: "Schedule exception created successfully",
@@ -70,7 +76,7 @@ const AddDoctorScheduleException = () => {
             </Text>
             <form onSubmit={handleSubmit}>
               <VStack spacing={4} align="stretch">
-                <FormControl isRequired>
+                {/* <FormControl isRequired>
                   <FormLabel>Doctor</FormLabel>
                   <Select
                     name="doctorId"
@@ -84,7 +90,7 @@ const AddDoctorScheduleException = () => {
                       </option>
                     ))}
                   </Select>
-                </FormControl>
+                </FormControl> */}
 
                 <FormControl>
                   <FormLabel>Schedule (Optional)</FormLabel>

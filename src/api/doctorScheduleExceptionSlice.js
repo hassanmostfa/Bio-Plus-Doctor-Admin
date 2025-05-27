@@ -19,7 +19,7 @@ export const doctorScheduleExceptionApi = createApi({
     // Get all doctor schedule exceptions
     getDoctorScheduleExceptions: builder.query({
       query: (params) => ({
-        url: "/admin/doctor-schedule/exceptions",
+        url: "/admin/doctor-schedule/exceptions/all",
         method: "GET",
         params,
       }),
@@ -29,7 +29,7 @@ export const doctorScheduleExceptionApi = createApi({
     // Get doctor schedule exception by ID
     getDoctorScheduleExceptionById: builder.query({
       query: (id) => ({
-        url: `/admin/doctor-schedule/${id}`,
+        url: `/admin/doctor-schedule/exceptions/${id}`,
         method: "GET",
       }),
       providesTags: ["DoctorScheduleException"],
@@ -48,7 +48,7 @@ export const doctorScheduleExceptionApi = createApi({
     // Update doctor schedule exception
     updateDoctorScheduleException: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/admin/doctor-schedule/${id}`,
+        url: `/admin/doctor-schedule/exceptions/${id}`,
         method: "PUT",
         body: data,
       }),
@@ -58,7 +58,7 @@ export const doctorScheduleExceptionApi = createApi({
     // Delete doctor schedule exception
     deleteDoctorScheduleException: builder.mutation({
       query: (id) => ({
-        url: `/admin/doctor-schedule/${id}`,
+        url: `/admin/doctor-schedule/exceptions/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["DoctorScheduleException"],

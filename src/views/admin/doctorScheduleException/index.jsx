@@ -14,7 +14,7 @@ import {
   Th,
   Td,
   IconButton,
-  Switch,
+  Badge,
   Select,
   FormControl,
   FormLabel,
@@ -142,25 +142,30 @@ const DoctorScheduleException = () => {
                 <Table variant="simple">
                   <Thead>
                     <Tr>
-                      <Th>Doctor</Th>
+                      
                       <Th>Exception Date</Th>
+                      <Th>Day</Th>
                       <Th>Schedule</Th>
-                      <Th>Status</Th>
+                      <Th>Is Cancelled</Th>
                       <Th>Actions</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
                     {exceptions?.data?.map((exception) => (
                       <Tr key={exception.id}>
-                        <Td>{exception.doctorName}</Td>
-                        <Td>{formatDate(exception.exceptionDate)}</Td>
+                        
+                        <Td>{exception.formattedDate}</Td>
+                        <Td>{exception.dayName}</Td>
                         <Td>{exception.scheduleId ? "Specific Schedule" : "All Schedules"}</Td>
                         <Td>
-                          <Switch
-                            isChecked={!exception.isCancelled}
-                            isReadOnly
-                            colorScheme={!exception.isCancelled ? "green" : "red"}
-                          />
+                          <Badge
+                            colorScheme={exception.isCancelled ? "red" : "green"}
+                            px={2}
+                            py={1}
+                            borderRadius="md"
+                          >
+                            {exception.isCancelled ? "Yes" : "No"}
+                          </Badge>
                         </Td>
                         <Td>
                           <HStack spacing={2}>
