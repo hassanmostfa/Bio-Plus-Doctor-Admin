@@ -10,7 +10,7 @@ export const doctorApi = createApi({
     baseUrl,
     prepareHeaders: (headers) => {
       // Get the token from localStorage (or Redux state)
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("doctor_token");
 
       // If a token exists, add it to the headers
       if (token) {
@@ -59,6 +59,11 @@ export const doctorApi = createApi({
         method: "DELETE",
       }),
     }),
+    getStatistics: builder.query({
+      query: () => ({
+        url: "/admin/stats/doctor",
+      }),
+    }),
   }),
 });
 
@@ -70,5 +75,6 @@ export const {
   useAssignDoctorMutation,
   useUpdateDoctorMutation,
   useDeleteDoctorMutation,
+  useGetStatisticsQuery,
 } = doctorApi;
 

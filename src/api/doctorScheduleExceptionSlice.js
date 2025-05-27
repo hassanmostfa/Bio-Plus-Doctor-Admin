@@ -19,7 +19,7 @@ export const doctorScheduleExceptionApi = createApi({
     // Get all doctor schedule exceptions
     getDoctorScheduleExceptions: builder.query({
       query: (params) => ({
-        url: "/admin/doctor-schedule",
+        url: "/admin/doctor-schedule/exceptions",
         method: "GET",
         params,
       }),

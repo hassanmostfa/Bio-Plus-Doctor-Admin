@@ -65,7 +65,7 @@ function SignIn() {
       const response = await loginUser(formData).unwrap();
       if (response) {
         localStorage.setItem("doctor_token", response.data.token);
-        localStorage.setItem("doctor", JSON.stringify(response.data.user));
+        localStorage.setItem("doctor", JSON.stringify(response.data.doctor));
         navigate("/");
       }
     } catch (err) {

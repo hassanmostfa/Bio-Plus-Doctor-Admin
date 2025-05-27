@@ -28,7 +28,7 @@ export const apiService = createApi({
     // Example login request (modify this as per your API endpoint)
     loginUser: builder.mutation({
       query: (userCredentials) => ({
-        url: "/client/auth/client-login",
+        url: "/doctor/auth/login",
         method: "POST",
         body: userCredentials, // Sending user credentials (email and password)
       }),

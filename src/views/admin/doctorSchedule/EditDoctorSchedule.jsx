@@ -160,7 +160,7 @@ const EditDoctorSchedule = () => {
                     isChecked={formData.isOnline}
                     onChange={handleInputChange}
                   />
-                </FormControl>
+                </FormControl> 
 
                 <FormControl isRequired>
                   <FormLabel>Clinic</FormLabel>
