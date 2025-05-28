@@ -19,12 +19,14 @@ import {
   FormControl,
   FormLabel,
   Flex,
+  Switch,
 } from "@chakra-ui/react";
 import { useGetDoctorScheduleExceptionsQuery, useDeleteDoctorScheduleExceptionMutation } from "api/doctorScheduleExceptionSlice";
 import { useGetDoctorsQuery } from "api/doctorSlice";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useUpdateDoctorScheduleExceptionMutation } from "api/doctorScheduleExceptionSlice";
 
 const DoctorScheduleException = () => {
   const navigate = useNavigate();
@@ -37,6 +39,7 @@ const DoctorScheduleException = () => {
   const { data: exceptions, isLoading, refetch } = useGetDoctorScheduleExceptionsQuery(filters);
   const { data: doctors } = useGetDoctorsQuery();
   const [deleteException] = useDeleteDoctorScheduleExceptionMutation();
+  const [updateException] = useUpdateDoctorScheduleExceptionMutation();
 
   const handleFilterChange = (name, value) => {
     setFilters(prev => ({
@@ -84,6 +87,21 @@ const DoctorScheduleException = () => {
       } catch (error) {
         Swal.fire("Error!", error.data?.message || "Failed to delete exception", "error");
       }
+    }
+  };
+
+  const handleToggleCancelled = async (id, currentValue) => {
+    try {
+      await updateException({
+        id,
+        data: {
+          isCancelled: !currentValue
+        }
+      }).unwrap();
+      Swal.fire("Updated!", "Schedule exception has been updated.", "success");
+      refetch();
+    } catch (error) {
+      Swal.fire("Error!", error.data?.message || "Failed to update exception", "error");
     }
   };
 
@@ -158,22 +176,14 @@ const DoctorScheduleException = () => {
                         <Td>{exception.dayName}</Td>
                         <Td>{exception.scheduleId ? "Specific Schedule" : "All Schedules"}</Td>
                         <Td>
-                          <Badge
+                          <Switch
+                            isChecked={exception.isCancelled}
+                            onChange={() => handleToggleCancelled(exception.id, exception.isCancelled)}
                             colorScheme={exception.isCancelled ? "red" : "green"}
-                            px={2}
-                            py={1}
-                            borderRadius="md"
-                          >
-                            {exception.isCancelled ? "Yes" : "No"}
-                          </Badge>
+                          />
                         </Td>
                         <Td>
                           <HStack spacing={2}>
-                            <IconButton
-                              icon={<EditIcon />}
-                              size="sm"
-                              onClick={() => handleEdit(exception.id)}
-                            />
                             <IconButton
                               icon={<DeleteIcon />}
                               size="sm"
