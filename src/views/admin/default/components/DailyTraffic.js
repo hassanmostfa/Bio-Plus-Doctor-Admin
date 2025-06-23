@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 
 // Chakra imports
 import { Box, Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react";
@@ -16,6 +17,7 @@ import { RiArrowUpSFill } from "react-icons/ri";
 
 export default function DailyTraffic(props) {
   const { ...rest } = props;
+  const { t } = useTranslation();
 
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -29,7 +31,7 @@ export default function DailyTraffic(props) {
               color='secondaryGray.600'
               fontSize='sm'
               fontWeight='500'>
-              Daily Traffic
+              {t('dailyTraffic')}
             </Text>
           </Flex>
           <Flex align='end'>
@@ -45,7 +47,7 @@ export default function DailyTraffic(props) {
               color='secondaryGray.600'
               fontSize='sm'
               fontWeight='500'>
-              Visitors
+              {t('visitors')}
             </Text>
           </Flex>
         </Flex>

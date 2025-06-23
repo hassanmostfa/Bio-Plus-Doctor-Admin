@@ -24,10 +24,12 @@ import {
   import { ChevronLeftIcon, ChevronRightIcon, EditIcon } from '@chakra-ui/icons';
   import { FaTrash } from 'react-icons/fa6';
   import Swal from 'sweetalert2';
+  import { useTranslation } from 'react-i18next';
   
   const columnHelper = createColumnHelper();
   
   const Calendar = () => {
+    const { t } = useTranslation();
     const [page, setPage] = React.useState(1); // Current page
     const [limit, setLimit] = React.useState(10); // Items per page
     const [sorting, setSorting] = React.useState([]);
@@ -51,7 +53,7 @@ import {
             fontSize={{ sm: '10px', lg: '12px' }}
             color="gray.400"
           >
-            Date
+            {t('date')}
           </Text>
         ),
         cell: (info) => (
@@ -69,7 +71,7 @@ import {
             fontSize={{ sm: '10px', lg: '12px' }}
             color="gray.400"
           >
-            Start Time
+            {t('startTime')}
           </Text>
         ),
         cell: (info) => (
@@ -87,7 +89,7 @@ import {
             fontSize={{ sm: '10px', lg: '12px' }}
             color="gray.400"
           >
-            End Time
+            {t('endTime')}
           </Text>
         ),
         cell: (info) => (
@@ -105,7 +107,7 @@ import {
             fontSize={{ sm: '10px', lg: '12px' }}
             color="gray.400"
           >
-            Actions
+            {t('actions')}
           </Text>
         ),
         cell: (info) => (
@@ -149,22 +151,22 @@ import {
     const handleDeleteAvailability = async (id) => {
       try {
         const result = await Swal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
+          title: t('areYouSure'),
+          text: t('noRevert'),
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!',
+          confirmButtonText: t('yesDeleteIt'),
         });
   
         if (result.isConfirmed) {
           // Perform delete operation here
-          Swal.fire('Deleted!', 'The availability has been deleted.', 'success');
+          Swal.fire(t('deleted'), t('availabilityDeleted'), 'success');
         }
       } catch (error) {
         console.error('Failed to delete availability:', error);
-        Swal.fire('Error!', 'Failed to delete the availability.', 'error');
+        Swal.fire(t('error'), t('failedDeleteAvailability'), 'error');
       }
     };
   
@@ -172,7 +174,7 @@ import {
     const handleUpdateAvailability = (id) => {
       // Perform update operation here
       console.log('Update availability with ID:', id);
-      Swal.fire('Info', 'Update functionality not implemented yet.', 'info');
+      Swal.fire(t('info'), t('updateNotImplemented'), 'info');
     };
   
     // Pagination controls
@@ -208,7 +210,7 @@ import {
               fontWeight="700"
               lineHeight="100%"
             >
-              Doctor Availability
+              {t('doctorAvailability')}
             </Text>
 
              <Button
@@ -221,7 +223,7 @@ import {
                 py='5px'
                 width={'200px'}
             >
-                Add Date
+                {t('addDate')}
             </Button>
           </Flex>
           <Box>
@@ -290,7 +292,7 @@ import {
           <Flex justifyContent="space-between" alignItems="center" px="25px" py="10px">
             <Flex alignItems="center">
               <Text color={textColor} fontSize="sm" mr="10px">
-                Rows per page:
+                {t('rowsPerPage')}
               </Text>
               <select
                 value={limit}
@@ -303,7 +305,7 @@ import {
               </select>
             </Flex>
             <Text color={textColor} fontSize="sm">
-              Page {page} of {Math.ceil(availability.length / limit)}
+              {t('page')} {page} {t('of')} {Math.ceil(availability.length / limit)}
             </Text>
             <Flex>
               <Button
@@ -314,7 +316,7 @@ import {
                 mr="10px"
               >
                 <Icon as={ChevronLeftIcon} mr="5px" />
-                Previous
+                {t('previous')}
               </Button>
               <Button
                 onClick={handleNextPage}
@@ -322,7 +324,7 @@ import {
                 variant="outline"
                 size="sm"
               >
-                Next
+                {t('next')}
                 <Icon as={ChevronRightIcon} ml="5px" />
               </Button>
             </Flex>

@@ -17,6 +17,7 @@ import "./styles.css";
 import { LuImageMinus } from "react-icons/lu";
 import { useGetDoctorsQuery } from "api/doctorSlice";
 import { useGetClinicsQuery } from "api/clinicSlice";
+import { useTranslation } from 'react-i18next';
 
 const AppointmentsCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -32,6 +33,7 @@ const AppointmentsCalendar = () => {
   });
 
   const toast = useToast();
+  const { t } = useTranslation();
 
   const { data, isLoading, error } = useGetAppointmentsQuery({
     ...filters,
@@ -87,9 +89,9 @@ const AppointmentsCalendar = () => {
 
   if (error) {
     toast({
-      title: "Error",
-      description: "Failed to fetch appointments",
-      status: "error",
+      title: t('error'),
+      description: t('failedFetchAppointments'),
+      status: 'error',
       duration: 5000,
       isClosable: true,
     });
@@ -101,7 +103,7 @@ const AppointmentsCalendar = () => {
         <GridItem colSpan={{ base: 12, lg: 3 }}>
           <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
             <Text fontSize="xl" fontWeight="bold" mb={4}>
-              Filters
+              {t('filters')}
             </Text>
             <Flex direction="column" gap={4}>
               {/* <Select
@@ -134,21 +136,21 @@ const AppointmentsCalendar = () => {
                 name="consultationType"
                 value={filters.consultationType}
                 onChange={handleFilterChange}
-                placeholder="Consultation Type"
+                placeholder={t('consultationType')}
               >
-                <option value="GOOGLE_MEET">Google Meet</option>
-                <option value="AT_CLINIC">At Clinic</option>
-                <option value="FREE_ONLINE">Free Online</option>
+                <option value="GOOGLE_MEET">{t('googleMeet')}</option>
+                <option value="AT_CLINIC">{t('atClinic')}</option>
+                <option value="FREE_ONLINE">{t('freeOnline')}</option>
               </Select>
 
               <Select
                 name="isBooked"
                 value={filters.isBooked}
                 onChange={handleFilterChange}
-                placeholder="Booking Status"
+                placeholder={t('bookingStatus')}
               >
-                <option value="true">Booked</option>
-                <option value="false">Available</option>
+                <option value="true">{t('booked')}</option>
+                <option value="false">{t('available')}</option>
               </Select>
 
               <Button
@@ -164,7 +166,7 @@ const AppointmentsCalendar = () => {
                 })}
                 size="sm"
               >
-                Reset Filters
+                {t('resetFilters')}
               </Button>
             </Flex>
           </Box>
@@ -181,10 +183,10 @@ const AppointmentsCalendar = () => {
             />
             <Box mt={4}>
               <Text fontSize="xl" fontWeight="bold" mb={4}>
-                Appointments for {selectedDate.toDateString()}
+                {t('appointmentsFor', { date: selectedDate.toDateString() })}
               </Text>
               {isLoading ? (
-                <Text>Loading appointments...</Text>
+                <Text>{t('loadingAppointments')}</Text>
               ) : (
                 <Grid templateColumns="repeat(3, 1fr)" gap={4}>
                   {getAppointmentsForDate(selectedDate).map((appointment) => (
@@ -198,12 +200,12 @@ const AppointmentsCalendar = () => {
                       <Text fontWeight="bold">
                         {appointment.startTime} - {appointment.endTime}
                       </Text>
-                      <Text>Type: {appointment.consultationType}</Text>
+                      <Text>{t('type')}: {t(appointment.consultationType)}</Text>
                       <Text>
-                        Status: {appointment.isBooked ? "Booked" : "Available"}
+                        {t('status')}: {appointment.isBooked ? t('booked') : t('available')}
                       </Text>
                       {appointment.clinicName && (
-                        <Text>Clinic: {appointment.clinicName}</Text>
+                        <Text>{t('clinic')}: {appointment.clinicName}</Text>
                       )}
                     </Box>
                   ))}

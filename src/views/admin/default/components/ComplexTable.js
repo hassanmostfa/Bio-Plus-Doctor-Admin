@@ -25,6 +25,7 @@ import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
 import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md';
+import { useTranslation } from 'react-i18next';
 
 const columnHelper = createColumnHelper();
 
@@ -32,6 +33,7 @@ const columnHelper = createColumnHelper();
 export default function ComplexTable(props) {
   const { tableData } = props;
   const [sorting, setSorting] = React.useState([]);
+  const { t } = useTranslation();
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   let defaultData = tableData;
@@ -45,7 +47,7 @@ export default function ComplexTable(props) {
           fontSize={{ sm: '10px', lg: '12px' }}
           color="gray.400"
         >
-          NAME
+          {t('name')}
         </Text>
       ),
       cell: (info) => (
@@ -65,7 +67,7 @@ export default function ComplexTable(props) {
           fontSize={{ sm: '10px', lg: '12px' }}
           color="gray.400"
         >
-          STATUS
+          {t('status')}
         </Text>
       ),
       cell: (info) => (
@@ -94,7 +96,7 @@ export default function ComplexTable(props) {
             }
           />
           <Text color={textColor} fontSize="sm" fontWeight="700">
-            {info.getValue()}
+            {t(info.getValue())}
           </Text>
         </Flex>
       ),
@@ -108,7 +110,7 @@ export default function ComplexTable(props) {
           fontSize={{ sm: '10px', lg: '12px' }}
           color="gray.400"
         >
-          DATE
+          {t('date')}
         </Text>
       ),
       cell: (info) => (
@@ -126,7 +128,7 @@ export default function ComplexTable(props) {
           fontSize={{ sm: '10px', lg: '12px' }}
           color="gray.400"
         >
-          PROGRESS
+          {t('progress')}
         </Text>
       ),
       cell: (info) => (
@@ -168,7 +170,7 @@ export default function ComplexTable(props) {
           fontWeight="700"
           lineHeight="100%"
         >
-          Complex Table
+          {t('complexTable')}
         </Text>
         <Menu />
       </Flex>

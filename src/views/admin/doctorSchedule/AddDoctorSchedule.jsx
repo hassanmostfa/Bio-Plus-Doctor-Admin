@@ -18,10 +18,12 @@ import { useGetDoctorsQuery } from "api/doctorSlice";
 import { useGetClinicsQuery } from "api/clinicSlice";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useTranslation } from 'react-i18next';
 
 const AddDoctorSchedule = () => {
   const navigate = useNavigate();
   const toast = useToast();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     doctorId: JSON.parse(localStorage.getItem("doctor"))?.id,
     isOnline: false,
@@ -72,17 +74,17 @@ const AddDoctorSchedule = () => {
     try {
       await createSchedule(submitData).unwrap();
       Swal.fire({
-        title: "Success!",
-        text: "Doctor schedule created successfully",
-        icon: "success",
+        title: t('success'),
+        text: t('doctorScheduleCreated'),
+        icon: 'success',
       }).then(() => {
-        navigate("/admin/doctor-schedules");
+        navigate('/admin/doctor-schedules');
       });
     } catch (error) {
       Swal.fire({
-        title: "Error!",
-        text: error.data?.message || "Failed to create schedule",
-        icon: "error",
+        title: t('error'),
+        text: error.data?.message || t('failedCreateSchedule'),
+        icon: 'error',
       });
     }
   };
@@ -93,7 +95,7 @@ const AddDoctorSchedule = () => {
         <GridItem colSpan={12}>
           <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
             <Text fontSize="xl" fontWeight="bold" mb={4}>
-              Add New Doctor Schedule
+              {t('addNewDoctorSchedule')}
             </Text>
             <form onSubmit={handleSubmit}>
               <VStack spacing={4} align="stretch">
@@ -114,7 +116,7 @@ const AddDoctorSchedule = () => {
                 </FormControl> */}
 
                 <FormControl>
-                  <FormLabel>Online Consultation</FormLabel>
+                  <FormLabel>{t('onlineConsultation')}</FormLabel>
                   <Switch
                     name="isOnline"
                     isChecked={formData.isOnline}
@@ -124,13 +126,13 @@ const AddDoctorSchedule = () => {
 
                 {/* {!formData.isOnline && ( */}
                   <FormControl isRequired>
-                    <FormLabel>Clinic</FormLabel>
+                    <FormLabel>{t('clinic')}</FormLabel>
                     <Select
                       name="clinicId"
                       value={formData.clinicId || ""}
                       onChange={handleInputChange}
                     >
-                      <option value="">Select Clinic</option>
+                      <option value="">{t('selectClinic')}</option>
                       {clinics?.data?.map((clinic) => (
                         <option key={clinic.id} value={clinic.id}>
                           {clinic.name}
@@ -141,25 +143,25 @@ const AddDoctorSchedule = () => {
                 {/* )} */}
 
                 <FormControl isRequired>
-                  <FormLabel>Day of Week</FormLabel>
+                  <FormLabel>{t('dayOfWeek')}</FormLabel>
                   <Select
                     name="dayOfWeek"
                     value={formData.dayOfWeek}
                     onChange={handleInputChange}
                   >
-                    <option value="">Select Day</option>
-                    <option value="0">Sunday</option>
-                    <option value="1">Monday</option>
-                    <option value="2">Tuesday</option>
-                    <option value="3">Wednesday</option>
-                    <option value="4">Thursday</option>
-                    <option value="5">Friday</option>
-                    <option value="6">Saturday</option>
+                    <option value="">{t('selectDay')}</option>
+                    <option value="0">{t('sunday')}</option>
+                    <option value="1">{t('monday')}</option>
+                    <option value="2">{t('tuesday')}</option>
+                    <option value="3">{t('wednesday')}</option>
+                    <option value="4">{t('thursday')}</option>
+                    <option value="5">{t('friday')}</option>
+                    <option value="6">{t('saturday')}</option>
                   </Select>
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>Start Time</FormLabel>
+                  <FormLabel>{t('startTime')}</FormLabel>
                   <Input
                     type="time"
                     name="startTime"
@@ -169,7 +171,7 @@ const AddDoctorSchedule = () => {
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>End Time</FormLabel>
+                  <FormLabel>{t('endTime')}</FormLabel>
                   <Input
                     type="time"
                     name="endTime"
@@ -179,7 +181,7 @@ const AddDoctorSchedule = () => {
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>Active</FormLabel>
+                  <FormLabel>{t('active')}</FormLabel>
                   <Switch
                     name="isActive"
                     isChecked={formData.isActive}
@@ -188,7 +190,7 @@ const AddDoctorSchedule = () => {
                 </FormControl>
 
                 <Button type="submit" colorScheme="blue" width="full">
-                  Create Schedule
+                  {t('createSchedule')}
                 </Button>
               </VStack>
             </form>

@@ -16,9 +16,11 @@ import {
   barChartOptionsConsumption,
 } from "variables/charts";
 import { MdBarChart } from "react-icons/md";
+import { useTranslation } from 'react-i18next';
 
 export default function WeeklyRevenue(props) {
   const { ...rest } = props;
+  const { t } = useTranslation();
 
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -41,7 +43,7 @@ export default function WeeklyRevenue(props) {
           fontSize='xl'
           fontWeight='700'
           lineHeight='100%'>
-          Weekly Revenue
+          {t('weeklyRevenue')}
         </Text>
         <Button
           align='center'

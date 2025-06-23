@@ -18,11 +18,13 @@ import { useGetDoctorsQuery } from "api/doctorSlice";
 import { useGetClinicsQuery } from "api/clinicSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useTranslation } from 'react-i18next';
 
 const EditDoctorSchedule = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const toast = useToast();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     doctorId: "",
     isOnline: false,
@@ -104,39 +106,39 @@ const EditDoctorSchedule = () => {
         schedule: submitData,
       }).unwrap();
       Swal.fire({
-        title: "Success!",
-        text: "Doctor schedule updated successfully",
-        icon: "success",
+        title: t('success'),
+        text: t('doctorScheduleUpdated'),
+        icon: 'success',
       }).then(() => {
-        navigate("/admin/doctor-schedules");
+        navigate('/admin/doctor-schedules');
       });
     } catch (error) {
       Swal.fire({
-        title: "Error!",
-        text: error.data?.message || "Failed to update schedule",
-        icon: "error",
+        title: t('error'),
+        text: error.data?.message || t('failedUpdateSchedule'),
+        icon: 'error',
       });
     }
   };
 
   if (isLoading) {
     return (
-      <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-        <Text>Loading...</Text>
+      <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
+        <Text>{t('loading')}</Text>
       </Box>
     );
   }
 
   return (
-    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      <Grid templateColumns="repeat(12, 1fr)" gap={6}>
+    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
+      <Grid templateColumns='repeat(12, 1fr)' gap={6}>
         <GridItem colSpan={12}>
-          <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
-            <Text fontSize="xl" fontWeight="bold" mb={4}>
-              Edit Doctor Schedule
+          <Box bg='white' p={4} borderRadius='lg' boxShadow='sm'>
+            <Text fontSize='xl' fontWeight='bold' mb={4}>
+              {t('editDoctorSchedule')}
             </Text>
             <form onSubmit={handleSubmit}>
-              <VStack spacing={4} align="stretch">
+              <VStack spacing={4} align='stretch'>
                 {/* <FormControl isRequired>
                   <FormLabel>Doctor</FormLabel>
                   <Select
@@ -154,22 +156,22 @@ const EditDoctorSchedule = () => {
                 </FormControl> */}
 
                 <FormControl>
-                  <FormLabel>Online Consultation</FormLabel>
+                  <FormLabel>{t('onlineConsultation')}</FormLabel>
                   <Switch
-                    name="isOnline"
+                    name='isOnline'
                     isChecked={formData.isOnline}
                     onChange={handleInputChange}
                   />
                 </FormControl> 
 
                 <FormControl isRequired>
-                  <FormLabel>Clinic</FormLabel>
+                  <FormLabel>{t('clinic')}</FormLabel>
                   <Select
-                    name="clinicId"
-                    value={formData.clinicId || ""}
+                    name='clinicId'
+                    value={formData.clinicId || ''}
                     onChange={handleInputChange}
                   >
-                    <option value="">Select Clinic</option>
+                    <option value=''>{t('selectClinic')}</option>
                     {clinics?.data?.map((clinic) => (
                       <option key={clinic.id} value={clinic.id}>
                         {clinic.name}
@@ -179,54 +181,54 @@ const EditDoctorSchedule = () => {
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>Day of Week</FormLabel>
+                  <FormLabel>{t('dayOfWeek')}</FormLabel>
                   <Select
-                    name="dayOfWeek"
+                    name='dayOfWeek'
                     value={formData.dayOfWeek}
                     onChange={handleInputChange}
                   >
-                    <option value="">Select Day</option>
-                    <option value="0">Sunday</option>
-                    <option value="1">Monday</option>
-                    <option value="2">Tuesday</option>
-                    <option value="3">Wednesday</option>
-                    <option value="4">Thursday</option>
-                    <option value="5">Friday</option>
-                    <option value="6">Saturday</option>
+                    <option value=''>{t('selectDay')}</option>
+                    <option value='0'>{t('sunday')}</option>
+                    <option value='1'>{t('monday')}</option>
+                    <option value='2'>{t('tuesday')}</option>
+                    <option value='3'>{t('wednesday')}</option>
+                    <option value='4'>{t('thursday')}</option>
+                    <option value='5'>{t('friday')}</option>
+                    <option value='6'>{t('saturday')}</option>
                   </Select>
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>Start Time</FormLabel>
+                  <FormLabel>{t('startTime')}</FormLabel>
                   <Input
-                    type="time"
-                    name="startTime"
+                    type='time'
+                    name='startTime'
                     value={formData.startTime}
                     onChange={handleInputChange}
                   />
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>End Time</FormLabel>
+                  <FormLabel>{t('endTime')}</FormLabel>
                   <Input
-                    type="time"
-                    name="endTime"
+                    type='time'
+                    name='endTime'
                     value={formData.endTime}
                     onChange={handleInputChange}
                   />
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>Active</FormLabel>
+                  <FormLabel>{t('active')}</FormLabel>
                   <Switch
-                    name="isActive"
+                    name='isActive'
                     isChecked={formData.isActive}
                     onChange={handleInputChange}
                   />
                 </FormControl>
 
-                <Button type="submit" colorScheme="blue" width="full">
-                  Update Schedule
+                <Button type='submit' colorScheme='blue' width='full'>
+                  {t('updateSchedule')}
                 </Button>
               </VStack>
             </form>

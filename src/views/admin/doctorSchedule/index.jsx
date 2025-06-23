@@ -32,8 +32,10 @@ import { useGetClinicsQuery } from "api/clinicSlice";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useTranslation } from 'react-i18next';
 
 const DoctorSchedule = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
     doctorId: JSON.parse(localStorage.getItem("doctor"))?.id  ,
@@ -95,48 +97,48 @@ const DoctorSchedule = () => {
 
   const handleDelete = async (id) => {
     const result = await Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
+      title: t('areYouSure'),
+      text: t('noRevert'),
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: t('yesDeleteIt'),
     });
-
     if (result.isConfirmed) {
       try {
         await deleteSchedule(id).unwrap();
-        Swal.fire("Deleted!", "Schedule has been deleted.", "success");
+        Swal.fire(t('deleted'), t('scheduleDeleted'), 'success');
         refetch();
       } catch (error) {
-        Swal.fire("Error!", error.data?.message || "Failed to delete schedule", "error");
+        Swal.fire(t('error'), error.data?.message || t('failedDeleteSchedule'), 'error');
       }
     }
   };
 
   const getDayName = (dayNumber) => {
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const days = [
+      t('sunday'), t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday')
+    ];
     return days[dayNumber];
   };
 
   return (
-    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      <Grid templateColumns="repeat(12, 1fr)" gap={6}>
+    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
+      <Grid templateColumns='repeat(12, 1fr)' gap={6}>
         <GridItem colSpan={12}>
-          <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
-            <HStack justify="space-between" mb={4}>
-              <Text fontSize="xl" fontWeight="bold">
-                Doctor Schedules
+          <Box bg='white' p={4} borderRadius='lg' boxShadow='sm'>
+            <HStack justify='space-between' mb={4}>
+              <Text fontSize='xl' fontWeight='bold'>
+                {t('doctorSchedules')}
               </Text>
-              <Button colorScheme="blue" onClick={() => navigate("/admin/doctor-schedules/add")}>
-                Add New Schedule
+              <Button colorScheme='blue' onClick={() => navigate('/admin/doctor-schedules/add')}>
+                {t('addNewSchedule')}
               </Button>
             </HStack>
-
             {/* Filters Section */}
-            <Box mb={4} p={4} borderWidth={1} borderRadius="md">
-              <Grid templateColumns="repeat(4, 1fr)" gap={4}>
+            <Box mb={4} p={4} borderWidth={1} borderRadius='md'>
+              <Grid templateColumns='repeat(4, 1fr)' gap={4}>
                 {/* <FormControl>
                   <FormLabel>Doctor</FormLabel>
                   <Select
@@ -153,14 +155,14 @@ const DoctorSchedule = () => {
                 </FormControl> */}
 
                 <FormControl>
-                  <FormLabel>Consultation Type</FormLabel>
+                  <FormLabel>{t('consultationType')}</FormLabel>
                   <Select
                     value={filters.isOnline}
-                    onChange={(e) => handleFilterChange("isOnline", e.target.value)}
+                    onChange={(e) => handleFilterChange('isOnline', e.target.value)}
                   >
-                    <option value="">All Types</option>
-                    <option value="true">Online</option>
-                    <option value="false">At Clinic</option>
+                    <option value=''>{t('allTypes')}</option>
+                    <option value='true'>{t('online')}</option>
+                    <option value='false'>{t('atClinic')}</option>
                   </Select>
                 </FormControl>
 
@@ -180,31 +182,31 @@ const DoctorSchedule = () => {
                 </FormControl> */}
 
                 <FormControl>
-                  <FormLabel>Day of Week</FormLabel>
+                  <FormLabel>{t('dayOfWeek')}</FormLabel>
                   <Select
                     value={filters.dayOfWeek}
-                    onChange={(e) => handleFilterChange("dayOfWeek", e.target.value)}
+                    onChange={(e) => handleFilterChange('dayOfWeek', e.target.value)}
                   >
-                    <option value="">All Days</option>
-                    <option value="0">Sunday</option>
-                    <option value="1">Monday</option>
-                    <option value="2">Tuesday</option>
-                    <option value="3">Wednesday</option>
-                    <option value="4">Thursday</option>
-                    <option value="5">Friday</option>
-                    <option value="6">Saturday</option>
+                    <option value=''>{t('allDays')}</option>
+                    <option value='0'>{t('sunday')}</option>
+                    <option value='1'>{t('monday')}</option>
+                    <option value='2'>{t('tuesday')}</option>
+                    <option value='3'>{t('wednesday')}</option>
+                    <option value='4'>{t('thursday')}</option>
+                    <option value='5'>{t('friday')}</option>
+                    <option value='6'>{t('saturday')}</option>
                   </Select>
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>Status</FormLabel>
+                  <FormLabel>{t('status')}</FormLabel>
                   <Select
                     value={filters.isActive}
-                    onChange={(e) => handleFilterChange("isActive", e.target.value)}
+                    onChange={(e) => handleFilterChange('isActive', e.target.value)}
                   >
-                    <option value="">All Status</option>
-                    <option value="true">Active</option>
-                    <option value="false">Inactive</option>
+                    <option value=''>{t('allStatus')}</option>
+                    <option value='true'>{t('active')}</option>
+                    <option value='false'>{t('inactive')}</option>
                   </Select>
                 </FormControl>
 
@@ -225,27 +227,27 @@ const DoctorSchedule = () => {
                 </FormControl> */}
 
                 <GridItem colSpan={2}>
-                  <Button colorScheme="gray" onClick={resetFilters} mt={8}>
-                    Reset Filters
+                  <Button colorScheme='gray' onClick={resetFilters} mt={8}>
+                    {t('resetFilters')}
                   </Button>
                 </GridItem>
               </Grid>
             </Box>
 
             {isLoading ? (
-              <Text>Loading schedules...</Text>
+              <Text>{t('loadingSchedules')}</Text>
             ) : (
               <>
-                <Table variant="simple">
+                <Table variant='simple'>
                   <Thead>
                     <Tr>
-                      <Th>Doctor</Th>
-                      <Th>Day</Th>
-                      <Th>Time</Th>
-                      <Th>Type</Th>
-                      <Th>Clinic</Th>
-                      <Th>Status</Th>
-                      <Th>Actions</Th>
+                      <Th>{t('doctor')}</Th>
+                      <Th>{t('day')}</Th>
+                      <Th>{t('time')}</Th>
+                      <Th>{t('type')}</Th>
+                      <Th>{t('clinic')}</Th>
+                      <Th>{t('status')}</Th>
+                      <Th>{t('actions')}</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
@@ -254,30 +256,29 @@ const DoctorSchedule = () => {
                         <Td>{schedule.doctorName}</Td>
                         <Td>{schedule.dayName}</Td>
                         <Td>{`${schedule.startTime} - ${schedule.endTime}`}</Td>
-                        <Td>{schedule.isOnline ? "Online" : "At Clinic"}</Td>
+                        <Td>{schedule.isOnline ? t('online') : t('atClinic')}</Td>
                         <Td>
                           {!schedule.isOnline && schedule.clinicId
                             ? schedule.clinicName
-                            : "-"}
-                        </Td>
+                            : '-'}</Td>
                         <Td>
                           <Switch
                             isChecked={schedule.isActive}
                             isReadOnly
-                            colorScheme={schedule.isActive ? "green" : "red"}
+                            colorScheme={schedule.isActive ? 'green' : 'red'}
                           />
                         </Td>
                         <Td>
                           <HStack spacing={2}>
                             <IconButton
                               icon={<EditIcon />}
-                              size="sm"
+                              size='sm'
                               onClick={() => handleEdit(schedule.id)}
                             />
                             <IconButton
                               icon={<DeleteIcon />}
-                              size="sm"
-                              colorScheme="red"
+                              size='sm'
+                              colorScheme='red'
                               onClick={() => handleDelete(schedule.id)}
                             />
                           </HStack>
@@ -288,22 +289,22 @@ const DoctorSchedule = () => {
                 </Table>
 
                 {/* Pagination */}
-                <Flex justify="space-between" align="center" mt={4}>
+                <Flex justify='space-between' align='center' mt={4}>
                   <Text>
-                    Page {schedules?.pagination?.page || 1} of {schedules?.pagination?.totalPages || 1}
+                    {t('page')} {schedules?.pagination?.page || 1} {t('of')} {schedules?.pagination?.totalPages || 1}
                   </Text>
                   <HStack>
                     <Button
                       onClick={() => handlePageChange(filters.page - 1)}
                       isDisabled={filters.page === 1}
                     >
-                      Previous
+                      {t('previous')}
                     </Button>
                     <Button
                       onClick={() => handlePageChange(filters.page + 1)}
                       isDisabled={filters.page >= (schedules?.pagination?.totalPages || 1)}
                     >
-                      Next
+                      {t('next')}
                     </Button>
                   </HStack>
                 </Flex>

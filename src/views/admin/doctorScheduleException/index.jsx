@@ -27,9 +27,11 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useUpdateDoctorScheduleExceptionMutation } from "api/doctorScheduleExceptionSlice";
+import { useTranslation } from 'react-i18next';
 
 const DoctorScheduleException = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [filters, setFilters] = useState({
     doctorId: JSON.parse(localStorage.getItem("doctor"))?.id,
     page: 1,
@@ -70,22 +72,21 @@ const DoctorScheduleException = () => {
 
   const handleDelete = async (id) => {
     const result = await Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
+      title: t('areYouSure'),
+      text: t('noRevert'),
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: t('yesDeleteIt'),
     });
-
     if (result.isConfirmed) {
       try {
         await deleteException(id).unwrap();
-        Swal.fire("Deleted!", "Schedule exception has been deleted.", "success");
+        Swal.fire(t('deleted'), t('exceptionDeleted'), 'success');
         refetch();
       } catch (error) {
-        Swal.fire("Error!", error.data?.message || "Failed to delete exception", "error");
+        Swal.fire(t('error'), error.data?.message || t('failedDeleteException'), 'error');
       }
     }
   };
@@ -98,10 +99,10 @@ const DoctorScheduleException = () => {
           isCancelled: !currentValue
         }
       }).unwrap();
-      Swal.fire("Updated!", "Schedule exception has been updated.", "success");
+      Swal.fire(t('updated'), t('exceptionUpdated'), 'success');
       refetch();
     } catch (error) {
-      Swal.fire("Error!", error.data?.message || "Failed to update exception", "error");
+      Swal.fire(t('error'), error.data?.message || t('failedUpdateException'), 'error');
     }
   };
 
@@ -120,10 +121,10 @@ const DoctorScheduleException = () => {
           <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
             <HStack justify="space-between" mb={4}>
               <Text fontSize="xl" fontWeight="bold">
-                Doctor Schedule Exceptions
+                {t('doctorScheduleExceptions')}
               </Text>
               <Button colorScheme="blue" onClick={() => navigate("/admin/doctor-schedule-exceptions/add")}>
-                Add New Exception
+                {t('addNewException')}
               </Button>
             </HStack>
 
@@ -154,32 +155,30 @@ const DoctorScheduleException = () => {
             </Box> */}
 
             {isLoading ? (
-              <Text>Loading exceptions...</Text>
+              <Text>{t('loadingExceptions')}</Text>
             ) : (
               <>
                 <Table variant="simple">
                   <Thead>
                     <Tr>
-                      
-                      <Th>Exception Date</Th>
-                      <Th>Day</Th>
-                      <Th>Schedule</Th>
-                      <Th>Is Cancelled</Th>
-                      <Th>Actions</Th>
+                      <Th>{t('exceptionDate')}</Th>
+                      <Th>{t('day')}</Th>
+                      <Th>{t('schedule')}</Th>
+                      <Th>{t('isCancelled')}</Th>
+                      <Th>{t('actions')}</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
                     {exceptions?.data?.map((exception) => (
                       <Tr key={exception.id}>
-                        
                         <Td>{exception.formattedDate}</Td>
                         <Td>{exception.dayName}</Td>
-                        <Td>{exception.scheduleId ? "Specific Schedule" : "All Schedules"}</Td>
+                        <Td>{exception.scheduleId ? t('specificSchedule') : t('allSchedules')}</Td>
                         <Td>
                           <Switch
                             isChecked={exception.isCancelled}
                             onChange={() => handleToggleCancelled(exception.id, exception.isCancelled)}
-                            colorScheme={exception.isCancelled ? "red" : "green"}
+                            colorScheme={exception.isCancelled ? 'red' : 'green'}
                           />
                         </Td>
                         <Td>
@@ -200,20 +199,20 @@ const DoctorScheduleException = () => {
                 {/* Pagination */}
                 <Flex justify="space-between" align="center" mt={4}>
                   <Text>
-                    Page {exceptions?.pagination?.page || 1} of {exceptions?.pagination?.totalPages || 1}
+                    {t('page')} {exceptions?.pagination?.page || 1} {t('of')} {exceptions?.pagination?.totalPages || 1}
                   </Text>
                   <HStack>
                     <Button
                       onClick={() => handlePageChange(filters.page - 1)}
                       isDisabled={filters.page === 1}
                     >
-                      Previous
+                      {t('previous')}
                     </Button>
                     <Button
                       onClick={() => handlePageChange(filters.page + 1)}
                       isDisabled={filters.page >= (exceptions?.pagination?.totalPages || 1)}
                     >
-                      Next
+                      {t('next')}
                     </Button>
                   </HStack>
                 </Flex>

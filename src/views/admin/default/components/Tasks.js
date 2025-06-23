@@ -11,6 +11,7 @@ import {
 import Card from "components/card/Card.js";
 import Menu from "components/menu/MainMenu";
 import IconBox from "components/icons/IconBox";
+import { useTranslation } from 'react-i18next';
 
 // Assets
 import { MdCheckBox, MdDragIndicator } from "react-icons/md";
@@ -18,6 +19,7 @@ import React from "react";
 
 export default function Conversion(props) {
   const { ...rest } = props;
+  const { t } = useTranslation();
 
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -35,7 +37,7 @@ export default function Conversion(props) {
         />
 
         <Text color={textColor} fontSize='lg' fontWeight='700'>
-          Tasks
+          {t('tasks')}
         </Text>
         <Menu ms='auto' />
       </Flex>
@@ -47,7 +49,7 @@ export default function Conversion(props) {
             color={textColor}
             fontSize='md'
             textAlign='start'>
-            Landing Page Design
+            {t('landingPageDesign')}
           </Text>
           <Icon
             ms='auto'
@@ -64,7 +66,7 @@ export default function Conversion(props) {
             color={textColor}
             fontSize='md'
             textAlign='start'>
-            Dashboard Builder
+            {t('dashboardBuilder')}
           </Text>
           <Icon
             ms='auto'
@@ -81,7 +83,7 @@ export default function Conversion(props) {
             color={textColor}
             fontSize='md'
             textAlign='start'>
-            Mobile App Design
+            {t('mobileAppDesign')}
           </Text>
           <Icon
             ms='auto'
@@ -98,7 +100,7 @@ export default function Conversion(props) {
             color={textColor}
             fontSize='md'
             textAlign='start'>
-            Illustrations
+            {t('illustrations')}
           </Text>
           <Icon
             ms='auto'
@@ -115,7 +117,7 @@ export default function Conversion(props) {
             color={textColor}
             fontSize='md'
             textAlign='start'>
-            Promotional LP
+            {t('promotionalLP')}
           </Text>
           <Icon
             ms='auto'

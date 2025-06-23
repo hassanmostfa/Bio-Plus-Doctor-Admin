@@ -17,9 +17,11 @@ import { useGetDoctorsQuery } from "api/doctorSlice";
 import { useGetDoctorSchedulesQuery } from "api/doctorScheduleSlice";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useTranslation } from 'react-i18next';
 
 const AddDoctorScheduleException = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     doctorId: JSON.parse(localStorage.getItem("doctor"))?.id,
     scheduleId: "",
@@ -51,17 +53,17 @@ const AddDoctorScheduleException = () => {
     try {
       await createException(submitData).unwrap();
       Swal.fire({
-        title: "Success!",
-        text: "Schedule exception created successfully",
-        icon: "success",
+        title: t('success'),
+        text: t('exceptionCreated'),
+        icon: 'success',
       }).then(() => {
-        navigate("/admin/doctor-schedule-exceptions");
+        navigate('/admin/doctor-schedule-exceptions');
       });
     } catch (error) {
       Swal.fire({
-        title: "Error!",
-        text: error.data?.message || "Failed to create exception",
-        icon: "error",
+        title: t('error'),
+        text: error.data?.message || t('failedCreateException'),
+        icon: 'error',
       });
     }
   };
@@ -72,7 +74,7 @@ const AddDoctorScheduleException = () => {
         <GridItem colSpan={12}>
           <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
             <Text fontSize="xl" fontWeight="bold" mb={4}>
-              Add New Schedule Exception
+              {t('addNewScheduleException')}
             </Text>
             <form onSubmit={handleSubmit}>
               <VStack spacing={4} align="stretch">
@@ -93,13 +95,13 @@ const AddDoctorScheduleException = () => {
                 </FormControl> */}
 
                 <FormControl>
-                  <FormLabel>Schedule (Optional)</FormLabel>
+                  <FormLabel>{t('scheduleOptional')}</FormLabel>
                   <Select
                     name="scheduleId"
                     value={formData.scheduleId}
                     onChange={handleInputChange}
                   >
-                    <option value="">All Schedules</option>
+                    <option value="">{t('allSchedules')}</option>
                     {schedules?.data?.map((schedule) => (
                       <option key={schedule.id} value={schedule.id}>
                         {`${schedule.dayName} (${schedule.startTime} - ${schedule.endTime})`}
@@ -109,7 +111,7 @@ const AddDoctorScheduleException = () => {
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>Exception Date</FormLabel>
+                  <FormLabel>{t('exceptionDate')}</FormLabel>
                   <Input
                     type="date"
                     name="exceptionDate"
@@ -119,7 +121,7 @@ const AddDoctorScheduleException = () => {
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>Cancelled</FormLabel>
+                  <FormLabel>{t('cancelled')}</FormLabel>
                   <Switch
                     name="isCancelled"
                     isChecked={formData.isCancelled}
@@ -128,7 +130,7 @@ const AddDoctorScheduleException = () => {
                 </FormControl>
 
                 <Button type="submit" colorScheme="blue" width="full">
-                  Create Exception
+                  {t('createException')}
                 </Button>
               </VStack>
             </form>

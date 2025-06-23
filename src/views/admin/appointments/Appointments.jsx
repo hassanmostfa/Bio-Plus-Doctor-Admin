@@ -32,10 +32,12 @@
     import React, { useState } from 'react';
     import Card from 'components/card/Card';
     import { FaEye } from 'react-icons/fa6';
+    import { useTranslation } from 'react-i18next';
     
     const columnHelper = createColumnHelper();
     
     const Appointments = () => {
+        const { t } = useTranslation();
         const [data, setData] = useState([
         {
             username: 'John Doe',
@@ -158,39 +160,39 @@
     
         const columns = [
         columnHelper.accessor('username', {
-            header: 'Username',
+            header: t('username'),
             cell: (info) => <Text color={textColor}>{info.getValue()}</Text>,
         }),
         columnHelper.accessor('userType', {
-            header: 'User Type',
+            header: t('userType'),
             cell: (info) => <Text color={textColor}>{info.getValue()}</Text>,
         }),
         columnHelper.accessor('email', {
-            header: 'Email',
+            header: t('email'),
             cell: (info) => <Text color={textColor}>{info.getValue()}</Text>,
         }),
         columnHelper.accessor('phoneNo', {
-            header: 'Phone No',
+            header: t('phoneNo'),
             cell: (info) => <Text color={textColor}>{info.getValue()}</Text>,
         }),
         columnHelper.accessor('doctor', {
-            header: 'Doctor',
+            header: t('doctor'),
             cell: (info) => <Text color={textColor}>{info.getValue()}</Text>,
         }),
         columnHelper.accessor('clinic', {
-            header: 'Clinic',
+            header: t('clinic'),
             cell: (info) => <Text color={textColor}>{info.getValue()}</Text>,
         }),
         columnHelper.accessor('clinicCategory', {
-            header: 'Clinic Category',
+            header: t('clinicCategory'),
             cell: (info) => <Text color={textColor}>{info.getValue()}</Text>,
         }),
         columnHelper.accessor('appointmentType', {
-            header: 'Appointment Type',
+            header: t('appointmentType'),
             cell: (info) => <Text color={textColor}>{info.getValue()}</Text>,
         }),
         columnHelper.accessor('appointmentDate', {
-            header: 'Appointment Date',
+            header: t('appointmentDate'),
             cell: (info) => <Text color={textColor}>{info.getValue()}</Text>,
         }),
         ];
@@ -221,9 +223,8 @@
                 fontSize="22px"
                 fontWeight="700"
                 lineHeight="100%"
-
                 >
-                Appointments
+                {t('appointments')}
                 </Text>
             </Flex>
     
@@ -231,9 +232,8 @@
             <Flex mb="20px" mx={"10px"} wrap="wrap" justifyContent="space-around">
                 {/* Doctor Filter */}
                 <Box>
-
                 <Select
-                    placeholder="Filter by Doctor"
+                    placeholder={t('filterByDoctor')}
                     value={doctorFilter}
                     onChange={handleDoctorFilterChange}
                     size="sm"
@@ -253,7 +253,7 @@
                 {/* Clinic Filter */}
                 <Box>
                 <Select
-                    placeholder="Filter by Clinic"
+                    placeholder={t('filterByClinic')}
                     value={clinicFilter}
                     onChange={handleClinicFilterChange}
                     size="sm"
@@ -273,7 +273,7 @@
                 {/* Clinic Category Filter */}
                 <Box>
                 <Select
-                    placeholder="Filter by Clinic Category"
+                    placeholder={t('filterByClinicCategory')}
                     value={clinicCategoryFilter}
                     onChange={handleClinicCategoryFilterChange}
                     size="sm"
@@ -293,7 +293,7 @@
                 {/* Appointment Type Filter */}
                 <Box>
                 <Select
-                    placeholder="Filter by Appointment Type"
+                    placeholder={t('filterByAppointmentType')}
                     value={appointmentTypeFilter}
                     onChange={handleAppointmentTypeFilterChange}
                     size="sm"
@@ -315,9 +315,8 @@
             <Flex mb="20px" mx={"20px"} wrap="wrap" justifyContent="space-around" alignItems={'center'}>
                 {/* Date Range Filter */}
                 <Box>
-
                 <Text color={textColor} mb={'10px'} fontWeight={'bold'} fontSize={'sm'}>
-                From Date
+                {t('fromDate')}
                 </Text>
                 <Input
                     type="date"
@@ -328,12 +327,11 @@
                     padding="20px"
                     bg={'gray.100'}
                     width={'400px'}
-                    
                 />
                 </Box>
                 <Box>
                 <Text color={textColor} mb={'10px'} fontWeight={'bold'} fontSize={'sm'}>
-                    To Date
+                    {t('toDate')}
                 </Text>
                 <Input
                     type="date"
@@ -359,7 +357,7 @@
                     width={'200px'}
                     mt={'20px'}
                 >
-                    Apply Filter
+                    {t('applyFilter')}
                 </Button>
                 </Box>
 

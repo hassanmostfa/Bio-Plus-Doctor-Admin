@@ -18,37 +18,39 @@ import { MdOnlinePrediction } from "react-icons/md";
 import { FcSalesPerformance } from "react-icons/fc";
 import { FaClinicMedical } from "react-icons/fa";
 import { useGetStatisticsQuery } from "api/doctorSlice";
+import { useTranslation } from 'react-i18next';
 
 export default function UserReports() {
+  const { t } = useTranslation();
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
   const { data: statistics, isLoading } = useGetStatisticsQuery();
 
   const cardData = [
     { 
-      name: "Total Appointments", 
+      name: t('totalAppointments'), 
       value: statistics?.data?.totalAppointments || 0, 
       icon: MdAssignment 
     },
     { 
-      name: "Today Appointments", 
+      name: t('todayAppointments'), 
       value: statistics?.data?.todayAppointments || 0, 
       icon: IoToday 
     },
     { 
-      name: "Total Online Appointments", 
+      name: t('totalOnlineAppointments'), 
       value: statistics?.data?.totalOnlineAppointments || 0, 
       icon: MdOnlinePrediction 
     },
     { 
-      name: "Total In Clinic Appointments", 
+      name: t('totalClinicAppointments'), 
       value: statistics?.data?.totalClinicAppointments || 0, 
       icon: FaClinicMedical 
     },
   ];
 
   if (isLoading) {
-    return <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>Loading...</Box>;
+    return <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>{t('loading')}</Box>;
   }
 
   return (

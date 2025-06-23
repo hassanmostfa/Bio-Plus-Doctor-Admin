@@ -32,7 +32,7 @@ import EditDoctorScheduleException from "views/admin/doctorScheduleException/Edi
 
 const routes = [
   {
-    name: 'Super Admin',
+    name: 'superAdmin',
     layout: '/admin',
     path: '/dashboard',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
@@ -121,16 +121,15 @@ const routes = [
   //   showInSidebar: true,
   // },
   {
-    name: 'Calendar view',
+    name: 'calendarView',
     layout: '/admin',
     path: '/appointments-calendar',
     component: <AppointmentsCalendar />,
     icon: <Icon as={FaRegCalendarDays} width="20px" height="20px" color="inherit" />,
-    
     showInSidebar: true,
   },
   {
-    name: 'Doctor Schedules',
+    name: 'doctorSchedules',
     layout: '/admin',
     path: '/doctor-schedules',
     component: <DoctorSchedule />,
@@ -152,26 +151,24 @@ const routes = [
     showInSidebar: false,
   },
   {
-    name: "Doctor Schedule Exceptions",
-    layout: "/admin",
-    path: "/doctor-schedule-exceptions",
+    name: 'doctorScheduleExceptions',
+    layout: '/admin',
+    path: '/doctor-schedule-exceptions',
     icon: <Icon as={MdEventBusy} width="20px" height="20px" color="inherit" />,
     component: <DoctorScheduleException />,
     showInSidebar: true,
-
-
   },
   {
-    name: "Add",
-    layout: "/admin",
-    path: "/doctor-schedule-exceptions/add",
+    name: 'add',
+    layout: '/admin',
+    path: '/doctor-schedule-exceptions/add',
     icon: <Icon as={MdEventBusy} width="20px" height="20px" color="inherit" />,
     component: <AddDoctorScheduleException />,
   },
   {
-    name: "Edit",
-    layout: "/admin",
-    path: "/doctor-schedule-exceptions/edit/:id",
+    name: 'edit',
+    layout: '/admin',
+    path: '/doctor-schedule-exceptions/edit/:id',
     icon: <Icon as={MdEventBusy} width="20px" height="20px" color="inherit" />,
     component: <EditDoctorScheduleException />,
   },
@@ -187,10 +184,10 @@ const routes = [
 //   },
   
   {
-    name: "Logout",
-    path: "/logout",
+    name: 'logout',
+    path: '/logout',
     icon: <RiLogoutCircleLine />, // Add an appropriate icon
-    layout: "/admin", // Adjust the layout as needed
+    layout: '/admin', // Adjust the layout as needed
     showInSidebar: true,
   },
   

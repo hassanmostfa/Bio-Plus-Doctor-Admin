@@ -8,9 +8,11 @@ import {
   barChartDataUserActivity,
   barChartOptionsUserActivity,
 } from "variables/charts";
+import { useTranslation } from 'react-i18next';
 
 export default function UserActivity(props) {
   const { ...rest } = props;
+  const { t } = useTranslation();
 
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -23,7 +25,7 @@ export default function UserActivity(props) {
           fontSize='xl'
           fontWeight='700'
           lineHeight='100%'>
-          User Activity
+          {t('userActivity')}
         </Text>
         <Select
           id='user_type'
@@ -32,9 +34,9 @@ export default function UserActivity(props) {
           display='flex'
           alignItems='center'
           defaultValue='Weekly'>
-          <option value='Weekly'>Weekly</option>
-          <option value='Daily'>Daily</option>
-          <option value='Monthly'>Monthly</option>
+          <option value='Weekly'>{t('weekly')}</option>
+          <option value='Daily'>{t('daily')}</option>
+          <option value='Monthly'>{t('monthly')}</option>
         </Select>
       </Flex>
 

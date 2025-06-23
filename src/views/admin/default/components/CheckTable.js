@@ -14,6 +14,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   createColumnHelper,
@@ -31,6 +32,7 @@ const columnHelper = createColumnHelper();
 
 export default function CheckTable({tableData , title}) {
   const [sorting, setSorting] = React.useState([]);
+  const { t } = useTranslation();
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   let defaultData = tableData;
@@ -44,7 +46,7 @@ export default function CheckTable({tableData , title}) {
           fontSize={{ sm: '10px', lg: '12px' }}
           color="gray.400"
         >
-          NAME
+          {t('name')}
         </Text>
       ),
       cell: (info) => (
@@ -69,7 +71,7 @@ export default function CheckTable({tableData , title}) {
           fontSize={{ sm: '10px', lg: '12px' }}
           color="gray.400"
         >
-          PROGRESS
+          {t('progress')}
         </Text>
       ),
       cell: (info) => (
@@ -87,7 +89,7 @@ export default function CheckTable({tableData , title}) {
           fontSize={{ sm: '10px', lg: '12px' }}
           color="gray.400"
         >
-          QUANTITY
+          {t('quantity')}
         </Text>
       ),
       cell: (info) => (
@@ -105,7 +107,7 @@ export default function CheckTable({tableData , title}) {
           fontSize={{ sm: '10px', lg: '12px' }}
           color="gray.400"
         >
-          DATE
+          {t('date')}
         </Text>
       ),
       cell: (info) => (
@@ -141,7 +143,7 @@ export default function CheckTable({tableData , title}) {
           fontWeight="700"
           lineHeight="100%"
         >
-          {title}
+          {typeof title === 'string' ? t(title) : title}
         </Text>
         <Menu />
       </Flex>
