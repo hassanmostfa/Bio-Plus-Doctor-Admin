@@ -12,6 +12,7 @@ import {
   useToast,
   Grid,
   GridItem,
+  HStack,
 } from "@chakra-ui/react";
 import { useCreateDoctorScheduleMutation } from "api/doctorScheduleSlice";
 import { useGetDoctorsQuery } from "api/doctorSlice";
@@ -19,11 +20,14 @@ import { useGetClinicsQuery } from "api/clinicSlice";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useTranslation } from 'react-i18next';
+import { ChevronLeftIcon } from "@chakra-ui/icons";
 
 const AddDoctorSchedule = () => {
   const navigate = useNavigate();
   const toast = useToast();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  
   const [formData, setFormData] = useState({
     doctorId: JSON.parse(localStorage.getItem("doctor"))?.id,
     isOnline: false,
@@ -62,11 +66,10 @@ const AddDoctorSchedule = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Prepare the data for submission
     const submitData = {
       ...formData,
       dayOfWeek: parseInt(formData.dayOfWeek),
-      clinicId:  formData.clinicId,
+      clinicId: formData.clinicId,
       startTime: formatTime(formData.startTime),
       endTime: formatTime(formData.endTime),
     };
@@ -90,60 +93,56 @@ const AddDoctorSchedule = () => {
   };
 
   return (
-    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+    <Box pt={{ base: "130px", md: "80px", xl: "80px" }} dir={isRTL ? "rtl" : "ltr"}>
       <Grid templateColumns="repeat(12, 1fr)" gap={6}>
         <GridItem colSpan={12}>
           <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
-            <Text fontSize="xl" fontWeight="bold" mb={4}>
-              {t('addNewDoctorSchedule')}
-            </Text>
+            <HStack justify="space-between" mb={4}>
+              <Button 
+                leftIcon={<ChevronLeftIcon />} 
+                variant="outline" 
+                onClick={() => navigate('/admin/doctor-schedules')}
+                mr={isRTL ? 0 : 2}
+                ml={isRTL ? 2 : 0}
+              >
+                {t('back')}
+              </Button>
+              <Text fontSize="xl" fontWeight="bold" textAlign={isRTL ? "right" : "left"}>
+                {t('addNewDoctorSchedule')}
+              </Text>
+              <Box width="100px" /> {/* Spacer to balance the layout */}
+            </HStack>
+            
             <form onSubmit={handleSubmit}>
               <VStack spacing={4} align="stretch">
-                {/* <FormControl isRequired>
-                  <FormLabel>Doctor</FormLabel>
-                  <Select
-                    name="doctorId"
-                    value={formData.doctorId}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Select Doctor</option>
-                    {doctors?.data?.map((doctor) => (
-                      <option key={doctor.id} value={doctor.id}>
-                        {doctor.fullName}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl> */}
-
                 <FormControl>
-                  <FormLabel>{t('onlineConsultation')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('onlineConsultation')}</FormLabel>
                   <Switch
+                    dir="ltr"
                     name="isOnline"
                     isChecked={formData.isOnline}
                     onChange={handleInputChange}
                   />
                 </FormControl>
 
-                {/* {!formData.isOnline && ( */}
-                  <FormControl isRequired>
-                    <FormLabel>{t('clinic')}</FormLabel>
-                    <Select
-                      name="clinicId"
-                      value={formData.clinicId || ""}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">{t('selectClinic')}</option>
-                      {clinics?.data?.map((clinic) => (
-                        <option key={clinic.id} value={clinic.id}>
-                          {clinic.name}
-                        </option>
-                      ))}
-                    </Select>
-                  </FormControl>
-                {/* )} */}
+                <FormControl isRequired>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('clinic')}</FormLabel>
+                  <Select
+                    name="clinicId"
+                    value={formData.clinicId || ""}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">{t('selectClinic')}</option>
+                    {clinics?.data?.map((clinic) => (
+                      <option key={clinic.id} value={clinic.id}>
+                        {clinic.name}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>{t('dayOfWeek')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('dayOfWeek')}</FormLabel>
                   <Select
                     name="dayOfWeek"
                     value={formData.dayOfWeek}
@@ -161,7 +160,7 @@ const AddDoctorSchedule = () => {
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>{t('startTime')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('startTime')}</FormLabel>
                   <Input
                     type="time"
                     name="startTime"
@@ -171,7 +170,7 @@ const AddDoctorSchedule = () => {
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>{t('endTime')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('endTime')}</FormLabel>
                   <Input
                     type="time"
                     name="endTime"
@@ -181,15 +180,26 @@ const AddDoctorSchedule = () => {
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>{t('active')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('active')}</FormLabel>
                   <Switch
+                    dir="ltr"
                     name="isActive"
                     isChecked={formData.isActive}
                     onChange={handleInputChange}
                   />
                 </FormControl>
 
-                <Button type="submit" colorScheme="blue" width="full">
+                <Button 
+                type="submit"
+                variant="darkBrand"
+		  	        fontWeight="500"
+        	      borderRadius="70px"
+                px="24px"
+                py="5px" 
+                color="white"
+                ml={4}
+                width="full"
+                mt={4}>
                   {t('createSchedule')}
                 </Button>
               </VStack>
@@ -201,4 +211,4 @@ const AddDoctorSchedule = () => {
   );
 };
 
-export default AddDoctorSchedule; 
+export default AddDoctorSchedule;

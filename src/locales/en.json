@@ -38,7 +38,7 @@
   "disable": "Disable",
   "error": "Error",
   "complexTable": "Complex Table",
-  "doctorScheduleExceptions": "Doctor Schedule Exceptions",
+  "doctorScheduleExceptions": "Schedule Exceptions",
   "addNewException": "Add New Exception",
   "loadingExceptions": "Loading exceptions...",
   "exceptionDate": "Exception Date",
@@ -144,5 +144,6 @@
   "superAdmin": "Super Admin",
   "calendarView": "Calendar view",
   "add": "Add",
-  "edit": "Edit"
+  "edit": "Edit",
+  "back" : "Back"
 } 

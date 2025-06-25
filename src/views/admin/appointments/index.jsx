@@ -22,8 +22,7 @@ import { useTranslation } from 'react-i18next';
 const AppointmentsCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [filters, setFilters] = useState({
-    doctorId: JSON.parse(localStorage.getItem("doctor"))?.id  ,
-    // doctorId:"64090c3c-8dff-43b2-b613-c6535cf8c6a2"  ,
+    doctorId: JSON.parse(localStorage.getItem("doctor"))?.id,
     clinicId: "",
     fromDate: "",
     toDate: "",
@@ -33,12 +32,11 @@ const AppointmentsCalendar = () => {
   });
 
   const toast = useToast();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
 
   const { data, isLoading, error } = useGetAppointmentsQuery({
     ...filters,
-    // fromDate: selectedDate.toISOString().split("T")[0],
-    // toDate: selectedDate.toISOString().split("T")[0],
   });
 
   const { data: doctors } = useGetDoctorsQuery();
@@ -68,8 +66,9 @@ const AppointmentsCalendar = () => {
         <Box
           position="absolute"
           bottom="2px"
-          left="50%"
-          transform="translateX(-50%)"
+          right={isRTL ? "unset" : "50%"}
+          left={isRTL ? "50%" : "unset"}
+          transform={isRTL ? "translateX(-50%)" : "translateX(50%)"}
           bg="blue.500"
           color="white"
           borderRadius="full"
@@ -98,40 +97,14 @@ const AppointmentsCalendar = () => {
   }
 
   return (
-    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+    <Box pt={{ base: "130px", md: "80px", xl: "80px" }} dir={isRTL ? "rtl" : "ltr"}>
       <Grid templateColumns="repeat(12, 1fr)" gap={6}>
         <GridItem colSpan={{ base: 12, lg: 3 }}>
           <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
-            <Text fontSize="xl" fontWeight="bold" mb={4}>
+            <Text fontSize="xl" fontWeight="bold" mb={4} textAlign={isRTL ? "right" : "left"}>
               {t('filters')}
             </Text>
             <Flex direction="column" gap={4}>
-              {/* <Select
-                name="doctorId"
-                value={filters.doctorId}
-                onChange={handleFilterChange}
-                placeholder="Select Doctor"
-              >
-                {doctors?.data?.map((doctor) => (
-                  <option key={doctor.id} value={doctor.id}>
-                    {doctor.fullName}
-                  </option>
-                ))}
-              </Select> */}
-
-              {/* <Select
-                name="clinicId"
-                value={filters.clinicId}
-                onChange={handleFilterChange}
-                placeholder="Select Clinic"
-              >
-                {clinics?.data?.map((clinic) => (
-                  <option key={clinic.id} value={clinic.id}>
-                    {clinic.name}
-                  </option>
-                ))}
-              </Select> */}
-
               <Select
                 name="consultationType"
                 value={filters.consultationType}
@@ -154,7 +127,15 @@ const AppointmentsCalendar = () => {
               </Select>
 
               <Button
-                colorScheme="blue"
+                variant="darkBrand"
+		  	        fontWeight="500"
+        	      borderRadius="70px"
+                px="24px"
+                py="5px" 
+                color="white"
+                ml={4}
+                width="full"
+                mt={4}
                 onClick={() => setFilters({
                   doctorId: "",
                   clinicId: "",
@@ -172,21 +153,22 @@ const AppointmentsCalendar = () => {
           </Box>
         </GridItem>
         <GridItem colSpan={{ base: 12, lg: 9 }}>
-
           <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
-
             <Calendar
               onChange={handleDateChange}
               value={selectedDate}
               tileContent={tileContent}
               className="appointments-calendar"
+              locale={isRTL ? "ar" : "en"}
+              next2Label={null}
+              prev2Label={null}
             />
             <Box mt={4}>
-              <Text fontSize="xl" fontWeight="bold" mb={4}>
+              <Text fontSize="xl" fontWeight="bold" mb={4} textAlign={isRTL ? "right" : "left"}>
                 {t('appointmentsFor', { date: selectedDate.toDateString() })}
               </Text>
               {isLoading ? (
-                <Text>{t('loadingAppointments')}</Text>
+                <Text textAlign={isRTL ? "right" : "left"}>{t('loadingAppointments')}</Text>
               ) : (
                 <Grid templateColumns="repeat(3, 1fr)" gap={4}>
                   {getAppointmentsForDate(selectedDate).map((appointment) => (
@@ -196,6 +178,7 @@ const AppointmentsCalendar = () => {
                       borderWidth="1px"
                       borderRadius="lg"
                       bg={appointment.isBooked ? "red.50" : "green.50"}
+                      textAlign={isRTL ? "right" : "left"}
                     >
                       <Text fontWeight="bold">
                         {appointment.startTime} - {appointment.endTime}
@@ -219,4 +202,4 @@ const AppointmentsCalendar = () => {
   );
 };
 
-export default AppointmentsCalendar; 
+export default AppointmentsCalendar;

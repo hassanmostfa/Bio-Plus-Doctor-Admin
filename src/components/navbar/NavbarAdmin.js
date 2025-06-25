@@ -142,7 +142,18 @@ import {
 		</Flex>
 		{secondary ? <Text color="white">{message}</Text> : null}
 		<Menu>
-		  <MenuButton as={Button} variant="outline" size="sm" ml={4} leftIcon={<span>{i18n.language === 'ar' ? '🇸🇦' : '🇺🇸'}</span>}>
+		  <MenuButton as={Button}
+		  	variant="darkBrand"
+		  	fontWeight="500"
+        	borderRadius="70px"
+            px="24px"
+            py="5px" 
+			color="white"
+			size="sm"
+			ml={4}
+			width={150}
+			leftIcon={<span>{i18n.language === 'ar' ? '🇸🇦' : '🇺🇸'}</span>}
+			>
 			{i18n.language === 'ar' ? 'العربية' : 'English'}
 		  </MenuButton>
 		  <MenuList minW="120px">

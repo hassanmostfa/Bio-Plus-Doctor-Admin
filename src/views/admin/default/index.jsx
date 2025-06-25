@@ -55,7 +55,7 @@ export default function UserReports() {
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="20px" mb="20px">
+      <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
         {cardData.map((card, index) => (
           <MiniStatistics
             key={index}

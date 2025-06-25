@@ -12,6 +12,7 @@ import {
   useToast,
   Grid,
   GridItem,
+  HStack,
 } from "@chakra-ui/react";
 import { useUpdateDoctorScheduleMutation, useGetDoctorScheduleByIdQuery } from "api/doctorScheduleSlice";
 import { useGetDoctorsQuery } from "api/doctorSlice";
@@ -19,12 +20,15 @@ import { useGetClinicsQuery } from "api/clinicSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useTranslation } from 'react-i18next';
+import { ChevronLeftIcon } from "@chakra-ui/icons";
 
 const EditDoctorSchedule = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const toast = useToast();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  
   const [formData, setFormData] = useState({
     doctorId: "",
     isOnline: false,
@@ -69,7 +73,6 @@ const EditDoctorSchedule = () => {
   useEffect(() => {
     if (schedule?.data) {
       setFormData({
-        // doctorId: schedule.data.doctorId,
         isOnline: schedule.data.isOnline,
         clinicId: schedule.data.clinicId || null,
         dayOfWeek: schedule.data.dayOfWeek.toString(),
@@ -91,7 +94,6 @@ const EditDoctorSchedule = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Prepare the data for submission
     const submitData = {
       ...formData,
       dayOfWeek: parseInt(formData.dayOfWeek),
@@ -123,49 +125,47 @@ const EditDoctorSchedule = () => {
 
   if (isLoading) {
     return (
-      <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
-        <Text>{t('loading')}</Text>
+      <Box pt={{ base: '130px', md: '80px', xl: '80px' }} dir={isRTL ? "rtl" : "ltr"}>
+        <Text textAlign={isRTL ? "right" : "left"}>{t('loading')}</Text>
       </Box>
     );
   }
 
   return (
-    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
+    <Box pt={{ base: '130px', md: '80px', xl: '80px' }} dir={isRTL ? "rtl" : "ltr"}>
       <Grid templateColumns='repeat(12, 1fr)' gap={6}>
         <GridItem colSpan={12}>
           <Box bg='white' p={4} borderRadius='lg' boxShadow='sm'>
-            <Text fontSize='xl' fontWeight='bold' mb={4}>
-              {t('editDoctorSchedule')}
-            </Text>
+            <HStack justify="space-between" mb={4}>
+              <Button 
+                leftIcon={<ChevronLeftIcon />} 
+                variant="outline" 
+                onClick={() => navigate('/admin/doctor-schedules')}
+                mr={isRTL ? 0 : 2}
+                ml={isRTL ? 2 : 0}
+              >
+                {t('back')}
+              </Button>
+              <Text fontSize="xl" fontWeight="bold" textAlign={isRTL ? "right" : "left"}>
+                {t('editDoctorSchedule')}
+              </Text>
+              <Box width="100px" /> {/* Spacer to balance the layout */}
+            </HStack>
+            
             <form onSubmit={handleSubmit}>
               <VStack spacing={4} align='stretch'>
-                {/* <FormControl isRequired>
-                  <FormLabel>Doctor</FormLabel>
-                  <Select
-                    name="doctorId"
-                    // value={formData.doctorId}
-                    // onChange={handleInputChange}
-                  >
-                    <option value="">Select Doctor</option>
-                    {doctors?.data?.map((doctor) => (
-                      <option key={doctor.id} value={doctor.id}>
-                        {doctor.fullName}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl> */}
-
                 <FormControl>
-                  <FormLabel>{t('onlineConsultation')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('onlineConsultation')}</FormLabel>
                   <Switch
+                    dir="ltr"
                     name='isOnline'
                     isChecked={formData.isOnline}
                     onChange={handleInputChange}
                   />
-                </FormControl> 
+                </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>{t('clinic')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('clinic')}</FormLabel>
                   <Select
                     name='clinicId'
                     value={formData.clinicId || ''}
@@ -181,7 +181,7 @@ const EditDoctorSchedule = () => {
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>{t('dayOfWeek')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('dayOfWeek')}</FormLabel>
                   <Select
                     name='dayOfWeek'
                     value={formData.dayOfWeek}
@@ -199,7 +199,7 @@ const EditDoctorSchedule = () => {
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>{t('startTime')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('startTime')}</FormLabel>
                   <Input
                     type='time'
                     name='startTime'
@@ -209,7 +209,7 @@ const EditDoctorSchedule = () => {
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>{t('endTime')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('endTime')}</FormLabel>
                   <Input
                     type='time'
                     name='endTime'
@@ -219,15 +219,27 @@ const EditDoctorSchedule = () => {
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>{t('active')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('active')}</FormLabel>
                   <Switch
+                    dir="ltr"
                     name='isActive'
                     isChecked={formData.isActive}
                     onChange={handleInputChange}
                   />
                 </FormControl>
 
-                <Button type='submit' colorScheme='blue' width='full'>
+                <Button 
+                type='submit'
+                mt={4}
+                variant="darkBrand"
+		  	        fontWeight="500"
+        	      borderRadius="70px"
+                px="24px"
+                py="5px" 
+                color="white"
+                ml={4}
+                width="full"
+                >
                   {t('updateSchedule')}
                 </Button>
               </VStack>
@@ -239,4 +251,4 @@ const EditDoctorSchedule = () => {
   );
 };
 
-export default EditDoctorSchedule; 
+export default EditDoctorSchedule;

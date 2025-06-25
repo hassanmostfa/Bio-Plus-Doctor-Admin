@@ -11,6 +11,7 @@ import {
   Text,
   Grid,
   GridItem,
+  HStack,
 } from "@chakra-ui/react";
 import { useCreateDoctorScheduleExceptionMutation } from "api/doctorScheduleExceptionSlice";
 import { useGetDoctorsQuery } from "api/doctorSlice";
@@ -18,10 +19,13 @@ import { useGetDoctorSchedulesQuery } from "api/doctorScheduleSlice";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useTranslation } from 'react-i18next';
+import { ChevronLeftIcon } from "@chakra-ui/icons";
 
 const AddDoctorScheduleException = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  
   const [formData, setFormData] = useState({
     doctorId: JSON.parse(localStorage.getItem("doctor"))?.id,
     scheduleId: "",
@@ -30,7 +34,10 @@ const AddDoctorScheduleException = () => {
   });
 
   const { data: doctors } = useGetDoctorsQuery();
-  const { data: schedules } = useGetDoctorSchedulesQuery({ limit: 1000, doctorId: JSON.parse(localStorage.getItem("doctor"))?.id });
+  const { data: schedules } = useGetDoctorSchedulesQuery({ 
+    limit: 1000, 
+    doctorId: JSON.parse(localStorage.getItem("doctor"))?.id 
+  });
   const [createException] = useCreateDoctorScheduleExceptionMutation();
 
   const handleInputChange = (e) => {
@@ -44,7 +51,6 @@ const AddDoctorScheduleException = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Create a new object without scheduleId if it's empty
     const submitData = { ...formData };
     if (!submitData.scheduleId) {
       delete submitData.scheduleId;
@@ -56,6 +62,9 @@ const AddDoctorScheduleException = () => {
         title: t('success'),
         text: t('exceptionCreated'),
         icon: 'success',
+        customClass: {
+          popup: isRTL ? 'swal2-rtl' : ''
+        }
       }).then(() => {
         navigate('/admin/doctor-schedule-exceptions');
       });
@@ -64,38 +73,38 @@ const AddDoctorScheduleException = () => {
         title: t('error'),
         text: error.data?.message || t('failedCreateException'),
         icon: 'error',
+        customClass: {
+          popup: isRTL ? 'swal2-rtl' : ''
+        }
       });
     }
   };
 
   return (
-    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+    <Box pt={{ base: "130px", md: "80px", xl: "80px" }} dir={isRTL ? "rtl" : "ltr"}>
       <Grid templateColumns="repeat(12, 1fr)" gap={6}>
         <GridItem colSpan={12}>
           <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
-            <Text fontSize="xl" fontWeight="bold" mb={4}>
-              {t('addNewScheduleException')}
-            </Text>
+            <HStack justify="space-between" mb={4}>
+              <Button 
+                leftIcon={<ChevronLeftIcon />} 
+                variant="outline" 
+                onClick={() => navigate('/admin/doctor-schedule-exceptions')}
+                mr={isRTL ? 0 : 2}
+                ml={isRTL ? 2 : 0}
+              >
+                {t('back')}
+              </Button>
+              <Text fontSize="xl" fontWeight="bold" textAlign={isRTL ? "right" : "left"}>
+                {t('addNewScheduleException')}
+              </Text>
+              <Box width="100px" /> {/* Spacer to balance the layout */}
+            </HStack>
+
             <form onSubmit={handleSubmit}>
               <VStack spacing={4} align="stretch">
-                {/* <FormControl isRequired>
-                  <FormLabel>Doctor</FormLabel>
-                  <Select
-                    name="doctorId"
-                    value={formData.doctorId}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Select Doctor</option>
-                    {doctors?.data?.map((doctor) => (
-                      <option key={doctor.id} value={doctor.id}>
-                        {doctor.fullName}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl> */}
-
                 <FormControl>
-                  <FormLabel>{t('scheduleOptional')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('scheduleOptional')}</FormLabel>
                   <Select
                     name="scheduleId"
                     value={formData.scheduleId}
@@ -111,25 +120,38 @@ const AddDoctorScheduleException = () => {
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>{t('exceptionDate')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('exceptionDate')}</FormLabel>
                   <Input
                     type="date"
                     name="exceptionDate"
                     value={formData.exceptionDate}
                     onChange={handleInputChange}
+                    dir={isRTL ? "rtl" : "ltr"}
                   />
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>{t('cancelled')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('cancelled')}</FormLabel>
                   <Switch
+                    dir="ltr"
                     name="isCancelled"
                     isChecked={formData.isCancelled}
                     onChange={handleInputChange}
                   />
                 </FormControl>
 
-                <Button type="submit" colorScheme="blue" width="full">
+                <Button 
+                  type="submit" 
+                  variant="darkBrand"
+                  fontWeight="500"
+                  borderRadius="70px"
+                  px="24px"
+                  py="5px" 
+                  color="white"
+                  ml={4}
+                  width="100%"
+                  mt={4}
+                >
                   {t('createException')}
                 </Button>
               </VStack>
@@ -141,4 +163,4 @@ const AddDoctorScheduleException = () => {
   );
 };
 
-export default AddDoctorScheduleException; 
+export default AddDoctorScheduleException;

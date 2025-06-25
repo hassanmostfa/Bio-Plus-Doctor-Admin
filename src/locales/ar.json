@@ -29,7 +29,7 @@
   "weeklyRevenue": "الإيرادات الأسبوعية",
   "dailyTraffic": "حركة المرور اليومية",
   "visitors": "الزوار",
-  "doctorScheduleExceptions": "استثناءات جدول الطبيب",
+  "doctorScheduleExceptions": "استثناءات الجداول ",
   "addNewException": "إضافة استثناء جديد",
   "loadingExceptions": "جاري تحميل الاستثناءات...",
   "exceptionDate": "تاريخ الاستثناء",
@@ -137,5 +137,6 @@
   "superAdmin": "المشرف العام",
   "calendarView": "عرض التقويم",
   "add": "إضافة",
-  "edit": "تعديل"
+  "edit": "تعديل",
+  "back" : "رجوع"
 } 
