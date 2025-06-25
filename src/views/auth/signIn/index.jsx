@@ -15,6 +15,10 @@ import {
   Text,
   useColorModeValue,
   Image,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import DefaultAuth from "layouts/auth/Default";
 import illustration from "assets/img/auth/auth.png";
@@ -27,6 +31,7 @@ import Logo from "../../../assets/img/bio-logo.png";
 
 function SignIn() {
   const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = "gray.400";
   const brandStars = useColorModeValue("brand.500", "brand.400");
@@ -51,12 +56,15 @@ function SignIn() {
         navigate("/");
       }
     } catch (err) {
-      setError(apiError?.data?.message || "Invalid credentials");
+      setError(apiError?.data?.message || t('invalidCredentials'));
       Swal.fire({
         icon: "error",
-        title: "Login Failed",
+        title: t('loginFailed'),
         text: error,
-        confirmButtonText: "OK",
+        confirmButtonText: t('ok'),
+        customClass: {
+          popup: isRTL ? 'swal2-rtl' : ''
+        },
         onClose: () => {
           if (!isError) navigate("/");
         },
@@ -79,41 +87,61 @@ function SignIn() {
         mb={{ base: "30px", md: "30px" }}
         px={{ base: "25px", md: "0px" }}
         flexDirection="column"
+        dir={isRTL ? "rtl" : "ltr"}
       >
         <Box me="auto">
           <Flex mb="40px" justifyContent="center">
             <Image src={Logo} w="150px" />
           </Flex>
-          <Flex gap={40} alignItems="center">
-            <Heading color={textColor} fontSize="36px" mb="10px">
+          <Flex gap={40} alignItems="center" direction={isRTL ? "rtl" : "ltr"}>
+            <Heading color={textColor} fontSize="36px" mb="10px" textAlign={isRTL ? "right" : "left"}>
               {t('welcome')}
             </Heading>
             <Box>
-              <select
-                style={{
-                  padding: '8px 16px',
-                  borderRadius: '20px',
-                  border: '1px solid #ccc',
-                  fontSize: '16px',
-                  background: 'white',
-                  color: '#222',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                }}
-                value={i18n.language}
-                onChange={e => i18n.changeLanguage(e.target.value)}
-              >
-                <option value="en">English</option>
-                <option value="ar">العربية</option>
-              </select>
+              <Menu>
+                <MenuButton 
+                  as={Button}
+                  variant="darkBrand"
+                  fontWeight="500"
+                  borderRadius="70px"
+                  px="24px"
+                  py="5px" 
+                  color="white"
+                  size="sm"
+                  ml={isRTL ? 0 : 4}
+                  mr={isRTL ? 4 : 0}
+                  width={120}
+                  leftIcon={<span>{i18n.language === 'ar' ? '🇸🇦' : '🇺🇸'}</span>}
+                >
+                  {i18n.language === 'ar' ? 'العربية' : 'English'}
+                </MenuButton>
+                <MenuList minW="120px" dir={isRTL ? "rtl" : "ltr"}>
+                  <MenuItem 
+                    icon={<span role="img" aria-label="English">🇺🇸</span>} 
+                    onClick={() => i18n.changeLanguage('en')}
+                    textAlign={isRTL ? "right" : "left"}
+                  >
+                    English
+                  </MenuItem>
+                  <MenuItem 
+                    icon={<span role="img" aria-label="Arabic">🇸🇦</span>} 
+                    onClick={() => i18n.changeLanguage('ar')}
+                    textAlign={isRTL ? "right" : "left"}
+                  >
+                    العربية
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </Box>
           </Flex>
           <Text
             mb="50px"
-            ms="4px"
+            ms={isRTL ? "0px" : "4px"}
+            me={isRTL ? "4px" : "0px"}
             color={textColorSecondary}
             fontWeight="400"
             fontSize="md"
+            textAlign={isRTL ? "right" : "left"}
           >
             {t('enterDetails')}
           </Text>
@@ -133,12 +161,14 @@ function SignIn() {
             <FormControl>
               <FormLabel
                 display="flex"
-                ms="4px"
+                ms={isRTL ? "0px" : "4px"}
+                me={isRTL ? "4px" : "0px"}
                 fontSize="sm"
                 fontWeight="500"
                 color={textColor}
                 mb="8px"
                 mt={"30px"}
+                textAlign={isRTL ? "right" : "left"}
               >
                 {t('email')}
                 <Text color={brandStars}>*</Text>
@@ -156,13 +186,16 @@ function SignIn() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                dir={isRTL ? "rtl" : "ltr"}
               />
               <FormLabel
-                ms="4px"
+                ms={isRTL ? "0px" : "4px"}
+                me={isRTL ? "4px" : "0px"}
                 fontSize="sm"
                 fontWeight="500"
                 color={textColor}
                 display="flex"
+                textAlign={isRTL ? "right" : "left"}
               >
                 {t('password')}
                 <Text color={brandStars}>*</Text>
@@ -179,6 +212,7 @@ function SignIn() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  dir={isRTL ? "rtl" : "ltr"}
                 />
                 <InputRightElement display="flex" alignItems="center" mt="4px">
                   <Icon
@@ -190,11 +224,12 @@ function SignIn() {
                 </InputRightElement>
               </InputGroup>
               <Flex justifyContent="space-between" align="center" mb="24px">
-                <FormControl display="flex" alignItems="center">
+                <FormControl display="flex" alignItems="center" flexDirection={isRTL ? "row-reverse" : "row"}>
                   <Checkbox
                     id="remember-login"
                     colorScheme="brandScheme"
-                    me="10px"
+                    me={isRTL ? "0px" : "10px"}
+                    ml={isRTL ? "10px" : "0px"}
                   />
                   <FormLabel
                     htmlFor="remember-login"
