@@ -70,8 +70,6 @@ const AddDoctorScheduleException = () => {
         title: t('success'),
         text: t('exceptionCreated'),
         icon: 'success',
-        background: bgColor,
-        color: textColor,
         customClass: {
           popup: isRTL ? 'swal2-rtl' : ''
         }
@@ -83,8 +81,6 @@ const AddDoctorScheduleException = () => {
         title: t('error'),
         text: error.data?.message || t('failedCreateException'),
         icon: 'error',
-        background: bgColor,
-        color: textColor,
         customClass: {
           popup: isRTL ? 'swal2-rtl' : ''
         }

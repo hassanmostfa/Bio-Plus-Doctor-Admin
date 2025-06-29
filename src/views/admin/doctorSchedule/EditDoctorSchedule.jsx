@@ -118,8 +118,6 @@ const EditDoctorSchedule = () => {
         title: t('success'),
         text: t('doctorScheduleUpdated'),
         icon: 'success',
-        background: bgColor,
-        color: textColor,
       }).then(() => {
         navigate('/admin/doctor-schedules');
       });
@@ -128,8 +126,6 @@ const EditDoctorSchedule = () => {
         title: t('error'),
         text: error.data?.message || t('failedUpdateSchedule'),
         icon: 'error',
-        background: bgColor,
-        color: textColor,
       });
     }
   };

@@ -84,8 +84,6 @@ const DoctorScheduleException = () => {
       cancelButtonColor: '#d33',
       confirmButtonText: t('yesDeleteIt'),
       cancelButtonText: t('cancel'),
-      background: bgColor,
-      color: textColor,
     });
     if (result.isConfirmed) {
       try {
@@ -94,8 +92,6 @@ const DoctorScheduleException = () => {
           title: t('deleted'),
           text: t('exceptionDeleted'),
           icon: 'success',
-          background: bgColor,
-          color: textColor,
         });
         refetch();
       } catch (error) {
@@ -103,8 +99,6 @@ const DoctorScheduleException = () => {
           title: t('error'),
           text: error.data?.message || t('failedDeleteException'),
           icon: 'error',
-          background: bgColor,
-          color: textColor,
         });
       }
     }

@@ -90,8 +90,6 @@ const AddDoctorSchedule = () => {
         title: t('success'),
         text: t('doctorScheduleCreated'),
         icon: 'success',
-        background: bgColor,
-        color: textColor,
       }).then(() => {
         navigate('/admin/doctor-schedules');
       });
@@ -100,8 +98,6 @@ const AddDoctorSchedule = () => {
         title: t('error'),
         text: error.data?.message || t('failedCreateSchedule'),
         icon: 'error',
-        background: bgColor,
-        color: textColor,
       });
     }
   };

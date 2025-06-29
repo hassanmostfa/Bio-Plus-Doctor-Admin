@@ -103,8 +103,6 @@ const DoctorSchedule = () => {
       cancelButtonColor: '#d33',
       confirmButtonText: t('yesDeleteIt'),
       cancelButtonText: t('cancel'),
-      background:background,
-      color: textColor,
     });
     
     if (result.isConfirmed) {
@@ -114,8 +112,6 @@ const DoctorSchedule = () => {
           title: t('deleted'),
           text: t('scheduleDeleted'),
           icon: 'success',
-          background:background,
-          color: textColor,
         });
         refetch();
       } catch (error) {
@@ -123,8 +119,6 @@ const DoctorSchedule = () => {
           title: t('error'),
           text: error.data?.message || t('failedDeleteSchedule'),
           icon: 'error',
-          background:background,
-          color: textColor,
         });
       }
     }
