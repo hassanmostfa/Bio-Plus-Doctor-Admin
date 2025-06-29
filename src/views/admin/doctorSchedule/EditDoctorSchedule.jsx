@@ -10,9 +10,9 @@ import {
   VStack,
   Text,
   useToast,
-  Grid,
-  GridItem,
-  HStack,
+  Card,
+  useColorModeValue,
+  Flex,
 } from "@chakra-ui/react";
 import { useUpdateDoctorScheduleMutation, useGetDoctorScheduleByIdQuery } from "api/doctorScheduleSlice";
 import { useGetDoctorsQuery } from "api/doctorSlice";
@@ -28,6 +28,13 @@ const EditDoctorSchedule = () => {
   const toast = useToast();
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
+  
+  // Color mode values
+  const textColor = useColorModeValue('secondaryGray.900', 'white');
+  const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const inputBg = useColorModeValue('white', 'gray.700');
+  const switchBg = useColorModeValue('gray.100', 'gray.600');
   
   const [formData, setFormData] = useState({
     doctorId: "",
@@ -111,6 +118,8 @@ const EditDoctorSchedule = () => {
         title: t('success'),
         text: t('doctorScheduleUpdated'),
         icon: 'success',
+        background: bgColor,
+        color: textColor,
       }).then(() => {
         navigate('/admin/doctor-schedules');
       });
@@ -119,6 +128,8 @@ const EditDoctorSchedule = () => {
         title: t('error'),
         text: error.data?.message || t('failedUpdateSchedule'),
         icon: 'error',
+        background: bgColor,
+        color: textColor,
       });
     }
   };
@@ -126,127 +137,171 @@ const EditDoctorSchedule = () => {
   if (isLoading) {
     return (
       <Box pt={{ base: '130px', md: '80px', xl: '80px' }} dir={isRTL ? "rtl" : "ltr"}>
-        <Text textAlign={isRTL ? "right" : "left"}>{t('loading')}</Text>
+        <Text textAlign={isRTL ? "right" : "left"} color={textColor}>{t('loading')}</Text>
       </Box>
     );
   }
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }} dir={isRTL ? "rtl" : "ltr"}>
-      <Grid templateColumns='repeat(12, 1fr)' gap={6}>
-        <GridItem colSpan={12}>
-          <Box bg='white' p={4} borderRadius='lg' boxShadow='sm'>
-            <HStack justify="space-between" mb={4}>
-              <Button 
-                leftIcon={<ChevronLeftIcon />} 
-                variant="outline" 
-                onClick={() => navigate('/admin/doctor-schedules')}
-                mr={isRTL ? 0 : 2}
-                ml={isRTL ? 2 : 0}
-              >
-                {t('back')}
-              </Button>
-              <Text fontSize="xl" fontWeight="bold" textAlign={isRTL ? "right" : "left"}>
-                {t('editDoctorSchedule')}
-              </Text>
-              <Box width="100px" /> {/* Spacer to balance the layout */}
-            </HStack>
-            
-            <form onSubmit={handleSubmit}>
-              <VStack spacing={4} align='stretch'>
-                <FormControl>
-                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('onlineConsultation')}</FormLabel>
-                  <Switch
-                    dir="ltr"
-                    name='isOnline'
-                    isChecked={formData.isOnline}
-                    onChange={handleInputChange}
-                  />
-                </FormControl>
+      <Card
+        flexDirection="column"
+        w="100%"
+        px="0px"
+        py="15px"
+        overflowX={{ sm: 'scroll', lg: 'hidden' }}
+        bg={bgColor}
+      >
+        <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
+          <Button 
+            leftIcon={<ChevronLeftIcon />} 
+            variant="outline"
+            colorScheme="blue"
+            onClick={() => navigate('/admin/doctor-schedules')}
+            mr={isRTL ? 0 : 2}
+            ml={isRTL ? 2 : 0}
+          >
+            {t('back')}
+          </Button>
+          
+          <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
+            {t('editDoctorSchedule')}
+          </Text>
+          
+          <Box width="100px" /> {/* Spacer to balance the layout */}
+        </Flex>
+        
+        <Box px="25px" pb="25px">
+          <form onSubmit={handleSubmit}>
+            <VStack spacing={4} align="stretch">
+              <FormControl>
+                <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>
+                  {t('onlineConsultation')}
+                </FormLabel>
+                <Switch
+                  dir="ltr"
+                  name="isOnline"
+                  isChecked={formData.isOnline}
+                  onChange={handleInputChange}
+                  colorScheme="brand"
+                  bg={switchBg}
+                />
+              </FormControl>
 
-                <FormControl isRequired>
-                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('clinic')}</FormLabel>
-                  <Select
-                    name='clinicId'
-                    value={formData.clinicId || ''}
-                    onChange={handleInputChange}
-                  >
-                    <option value=''>{t('selectClinic')}</option>
-                    {clinics?.data?.map((clinic) => (
-                      <option key={clinic.id} value={clinic.id}>
-                        {clinic.name}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-
-                <FormControl isRequired>
-                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('dayOfWeek')}</FormLabel>
-                  <Select
-                    name='dayOfWeek'
-                    value={formData.dayOfWeek}
-                    onChange={handleInputChange}
-                  >
-                    <option value=''>{t('selectDay')}</option>
-                    <option value='0'>{t('sunday')}</option>
-                    <option value='1'>{t('monday')}</option>
-                    <option value='2'>{t('tuesday')}</option>
-                    <option value='3'>{t('wednesday')}</option>
-                    <option value='4'>{t('thursday')}</option>
-                    <option value='5'>{t('friday')}</option>
-                    <option value='6'>{t('saturday')}</option>
-                  </Select>
-                </FormControl>
-
-                <FormControl isRequired>
-                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('startTime')}</FormLabel>
-                  <Input
-                    type='time'
-                    name='startTime'
-                    value={formData.startTime}
-                    onChange={handleInputChange}
-                  />
-                </FormControl>
-
-                <FormControl isRequired>
-                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('endTime')}</FormLabel>
-                  <Input
-                    type='time'
-                    name='endTime'
-                    value={formData.endTime}
-                    onChange={handleInputChange}
-                  />
-                </FormControl>
-
-                <FormControl>
-                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('active')}</FormLabel>
-                  <Switch
-                    dir="ltr"
-                    name='isActive'
-                    isChecked={formData.isActive}
-                    onChange={handleInputChange}
-                  />
-                </FormControl>
-
-                <Button 
-                type='submit'
-                mt={4}
-                variant="darkBrand"
-		  	        fontWeight="500"
-        	      borderRadius="70px"
-                px="24px"
-                py="5px" 
-                color="white"
-                ml={4}
-                width="full"
+              <FormControl isRequired>
+                <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>
+                  {t('clinic')}
+                </FormLabel>
+                <Select
+                  name="clinicId"
+                  value={formData.clinicId || ""}
+                  onChange={handleInputChange}
+                  bg={inputBg}
+                  color={textColor}
+                  borderColor={borderColor}
+                  _hover={{ borderColor: borderColor }}
+                  _focus={{ borderColor: 'blue.500', boxShadow: 'outline' }}
                 >
-                  {t('updateSchedule')}
-                </Button>
-              </VStack>
-            </form>
-          </Box>
-        </GridItem>
-      </Grid>
+                  <option value="">{t('selectClinic')}</option>
+                  {clinics?.data?.map((clinic) => (
+                    <option key={clinic.id} value={clinic.id}>
+                      {clinic.name}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>
+                  {t('dayOfWeek')}
+                </FormLabel>
+                <Select
+                  name="dayOfWeek"
+                  value={formData.dayOfWeek}
+                  onChange={handleInputChange}
+                  bg={inputBg}
+                  color={textColor}
+                  borderColor={borderColor}
+                  _hover={{ borderColor: borderColor }}
+                  _focus={{ borderColor: 'blue.500', boxShadow: 'outline' }}
+                >
+                  <option value="">{t('selectDay')}</option>
+                  <option value="0">{t('sunday')}</option>
+                  <option value="1">{t('monday')}</option>
+                  <option value="2">{t('tuesday')}</option>
+                  <option value="3">{t('wednesday')}</option>
+                  <option value="4">{t('thursday')}</option>
+                  <option value="5">{t('friday')}</option>
+                  <option value="6">{t('saturday')}</option>
+                </Select>
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>
+                  {t('startTime')}
+                </FormLabel>
+                <Input
+                  type="time"
+                  name="startTime"
+                  value={formData.startTime}
+                  onChange={handleInputChange}
+                  bg={inputBg}
+                  color={textColor}
+                  borderColor={borderColor}
+                  _hover={{ borderColor: borderColor }}
+                  _focus={{ borderColor: 'blue.500', boxShadow: 'outline' }}
+                />
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>
+                  {t('endTime')}
+                </FormLabel>
+                <Input
+                  type="time"
+                  name="endTime"
+                  value={formData.endTime}
+                  onChange={handleInputChange}
+                  bg={inputBg}
+                  color={textColor}
+                  borderColor={borderColor}
+                  _hover={{ borderColor: borderColor }}
+                  _focus={{ borderColor: 'blue.500', boxShadow: 'outline' }}
+                />
+              </FormControl>
+
+              <FormControl>
+                <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>
+                  {t('active')}
+                </FormLabel>
+                <Switch
+                  dir="ltr"
+                  name="isActive"
+                  isChecked={formData.isActive}
+                  onChange={handleInputChange}
+                  colorScheme="brand"
+                  bg={switchBg}
+                />
+              </FormControl>
+
+              <Button 
+                type="submit"
+                variant="darkBrand"
+                color="white"
+                fontSize="sm"
+                fontWeight="500"
+                borderRadius="70px"
+                px="24px"
+                py="5px"
+                width="full"
+                mt={4}
+              >
+                {t('updateSchedule')}
+              </Button>
+            </VStack>
+          </form>
+        </Box>
+      </Card>
     </Box>
   );
 };

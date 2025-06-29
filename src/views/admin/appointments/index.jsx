@@ -3,18 +3,19 @@ import {
   Box,
   Flex,
   Select,
-  Input,
   Button,
   Text,
   useToast,
   Grid,
   GridItem,
+  useColorModeValue,
+  Card,
+  Badge,
 } from "@chakra-ui/react";
 import { useGetAppointmentsQuery } from "api/appointmentSlice";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./styles.css";
-import { LuImageMinus } from "react-icons/lu";
 import { useGetDoctorsQuery } from "api/doctorSlice";
 import { useGetClinicsQuery } from "api/clinicSlice";
 import { useTranslation } from 'react-i18next';
@@ -34,6 +35,15 @@ const AppointmentsCalendar = () => {
   const toast = useToast();
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
+
+  // Color mode values
+  const textColor = useColorModeValue('secondaryGray.900', 'white');
+  const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const cardBg = useColorModeValue('white', 'gray.700');
+  const inputBg = useColorModeValue('white', 'gray.700');
+  const bookedBg = useColorModeValue('red.50', 'red.900');
+  const availableBg = useColorModeValue('green.50', 'green.900');
 
   const { data, isLoading, error } = useGetAppointmentsQuery({
     ...filters,
@@ -63,14 +73,13 @@ const AppointmentsCalendar = () => {
     const appointments = getAppointmentsForDate(date);
     if (appointments.length > 0) {
       return (
-        <Box
+        <Badge
           position="absolute"
           bottom="2px"
           right={isRTL ? "unset" : "50%"}
           left={isRTL ? "50%" : "unset"}
           transform={isRTL ? "translateX(-50%)" : "translateX(50%)"}
-          bg="blue.500"
-          color="white"
+          colorScheme="blue"
           borderRadius="full"
           w="20px"
           h="20px"
@@ -80,7 +89,7 @@ const AppointmentsCalendar = () => {
           fontSize="xs"
         >
           {appointments.length}
-        </Box>
+        </Badge>
       );
     }
     return null;
@@ -93,6 +102,7 @@ const AppointmentsCalendar = () => {
       status: 'error',
       duration: 5000,
       isClosable: true,
+      position: isRTL ? 'top-left' : 'top-right',
     });
   }
 
@@ -100,8 +110,8 @@ const AppointmentsCalendar = () => {
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }} dir={isRTL ? "rtl" : "ltr"}>
       <Grid templateColumns="repeat(12, 1fr)" gap={6}>
         <GridItem colSpan={{ base: 12, lg: 3 }}>
-          <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
-            <Text fontSize="xl" fontWeight="bold" mb={4} textAlign={isRTL ? "right" : "left"}>
+          <Card p={4} borderRadius="lg" bg={cardBg}>
+            <Text color={textColor} fontSize="xl" fontWeight="bold" mb={4}>
               {t('filters')}
             </Text>
             <Flex direction="column" gap={4}>
@@ -110,6 +120,9 @@ const AppointmentsCalendar = () => {
                 value={filters.consultationType}
                 onChange={handleFilterChange}
                 placeholder={t('consultationType')}
+                bg={inputBg}
+                color={textColor}
+                borderColor={borderColor}
               >
                 <option value="GOOGLE_MEET">{t('googleMeet')}</option>
                 <option value="AT_CLINIC">{t('atClinic')}</option>
@@ -121,6 +134,9 @@ const AppointmentsCalendar = () => {
                 value={filters.isBooked}
                 onChange={handleFilterChange}
                 placeholder={t('bookingStatus')}
+                bg={inputBg}
+                color={textColor}
+                borderColor={borderColor}
               >
                 <option value="true">{t('booked')}</option>
                 <option value="false">{t('available')}</option>
@@ -128,12 +144,12 @@ const AppointmentsCalendar = () => {
 
               <Button
                 variant="darkBrand"
-		  	        fontWeight="500"
-        	      borderRadius="70px"
-                px="24px"
-                py="5px" 
                 color="white"
-                ml={4}
+                fontSize="sm"
+                fontWeight="500"
+                borderRadius="70px"
+                px="24px"
+                py="5px"
                 width="full"
                 mt={4}
                 onClick={() => setFilters({
@@ -145,57 +161,68 @@ const AppointmentsCalendar = () => {
                   consultationType: "",
                   limit: 100000000,
                 })}
-                size="sm"
               >
                 {t('resetFilters')}
               </Button>
             </Flex>
-          </Box>
+          </Card>
         </GridItem>
         <GridItem colSpan={{ base: 12, lg: 9 }}>
-          <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
-            <Calendar
-              onChange={handleDateChange}
-              value={selectedDate}
-              tileContent={tileContent}
-              className="appointments-calendar"
-              locale={isRTL ? "ar" : "en"}
-              next2Label={null}
-              prev2Label={null}
-            />
+          <Card p={4} borderRadius="lg" bg={cardBg}>
+            <Box className={useColorModeValue('', 'dark-calendar')}>
+              <Calendar
+                onChange={handleDateChange}
+                value={selectedDate}
+                tileContent={tileContent}
+                className="appointments-calendar"
+                locale={isRTL ? "ar" : "en"}
+                next2Label={null}
+                prev2Label={null}
+              />
+            </Box>
             <Box mt={4}>
-              <Text fontSize="xl" fontWeight="bold" mb={4} textAlign={isRTL ? "right" : "left"}>
+              <Text color={textColor} fontSize="xl" fontWeight="bold" mb={4}>
                 {t('appointmentsFor', { date: selectedDate.toDateString() })}
               </Text>
               {isLoading ? (
-                <Text textAlign={isRTL ? "right" : "left"}>{t('loadingAppointments')}</Text>
+                <Text color={textColor}>{t('loadingAppointments')}</Text>
               ) : (
-                <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+                <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={4}>
                   {getAppointmentsForDate(selectedDate).map((appointment) => (
-                    <Box
+                    <Card
                       key={appointment.id}
                       p={4}
                       borderWidth="1px"
-                      borderRadius="lg"
-                      bg={appointment.isBooked ? "red.50" : "green.50"}
+                      borderColor={borderColor}
+                      bg={appointment.isBooked ? bookedBg : availableBg}
                       textAlign={isRTL ? "right" : "left"}
                     >
-                      <Text fontWeight="bold">
+                      <Text fontWeight="bold" color={textColor}>
                         {appointment.startTime} - {appointment.endTime}
                       </Text>
-                      <Text>{t('type')}: {t(appointment.consultationType)}</Text>
-                      <Text>
-                        {t('status')}: {appointment.isBooked ? t('booked') : t('available')}
+                      <Text color={textColor}>
+                        {t('type')}: {t(appointment.consultationType)}
+                      </Text>
+                      <Text color={textColor}>
+                        {t('status')}: 
+                        <Badge 
+                          ml={2}
+                          colorScheme={appointment.isBooked ? 'red' : 'green'}
+                        >
+                          {appointment.isBooked ? t('booked') : t('available')}
+                        </Badge>
                       </Text>
                       {appointment.clinicName && (
-                        <Text>{t('clinic')}: {appointment.clinicName}</Text>
+                        <Text color={textColor}>
+                          {t('clinic')}: {appointment.clinicName}
+                        </Text>
                       )}
-                    </Box>
+                    </Card>
                   ))}
                 </Grid>
               )}
             </Box>
-          </Box>
+          </Card>
         </GridItem>
       </Grid>
     </Box>
