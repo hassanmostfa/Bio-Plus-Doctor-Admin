@@ -31,6 +31,10 @@ export const switchStyles = {
           },
         }),
       },
+
+      defaultProps: {
+        colorScheme: "brand",
+      },
     },
   },
 };

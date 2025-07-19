@@ -12,6 +12,7 @@ import {
   Grid,
   GridItem,
   HStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useUpdateDoctorScheduleExceptionMutation, useGetDoctorScheduleExceptionByIdQuery } from "api/doctorScheduleExceptionSlice";
 import { useGetDoctorsQuery } from "api/doctorSlice";
@@ -26,6 +27,13 @@ const EditDoctorScheduleException = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
+  
+  // Color mode values
+  const textColor = useColorModeValue('secondaryGray.900', 'white');
+  const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const inputBg = useColorModeValue('white', 'gray.700');
+
   
   const [formData, setFormData] = useState({
     doctorId: JSON.parse(localStorage.getItem("doctor"))?.id,
@@ -105,7 +113,7 @@ const EditDoctorScheduleException = () => {
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }} dir={isRTL ? "rtl" : "ltr"}>
       <Grid templateColumns="repeat(12, 1fr)" gap={6}>
         <GridItem colSpan={12}>
-          <Box bg="white" p={4} borderRadius="lg" boxShadow="sm">
+          <Box bg={bgColor} p={4} borderRadius="lg" boxShadow="sm">
             <HStack justify="space-between" mb={4}>
               <Button 
                 leftIcon={<ChevronLeftIcon />} 
@@ -116,7 +124,7 @@ const EditDoctorScheduleException = () => {
               >
                 {t('back')}
               </Button>
-              <Text fontSize="xl" fontWeight="bold" textAlign={isRTL ? "right" : "left"}>
+              <Text fontSize="xl" fontWeight="bold" textAlign={isRTL ? "right" : "left"} color={textColor}>
                 {t('editScheduleException')}
               </Text>
               <Box width="100px" /> {/* Spacer to balance the layout */}
@@ -125,11 +133,16 @@ const EditDoctorScheduleException = () => {
             <form onSubmit={handleSubmit}>
               <VStack spacing={4} align="stretch">
                 <FormControl>
-                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('scheduleOptional')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>{t('scheduleOptional')}</FormLabel>
                   <Select
                     name="scheduleId"
                     value={formData.scheduleId}
                     onChange={handleInputChange}
+                    bg={inputBg}
+                    color={textColor}
+                    borderColor={borderColor}
+                    _hover={{ borderColor: borderColor }}
+                    _focus={{ borderColor: 'blue.500', boxShadow: 'outline' }}
                   >
                     <option value="">{t('allSchedules')}</option>
                     {schedules?.data?.map((schedule) => (
@@ -141,23 +154,29 @@ const EditDoctorScheduleException = () => {
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('exceptionDate')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>{t('exceptionDate')}</FormLabel>
                   <Input
                     type="date"
                     name="exceptionDate"
                     value={formData.exceptionDate}
                     onChange={handleInputChange}
                     dir={isRTL ? "rtl" : "ltr"}
+                    bg={inputBg}
+                    color={textColor}
+                    borderColor={borderColor}
+                    _hover={{ borderColor: borderColor }}
+                    _focus={{ borderColor: 'blue.500', boxShadow: 'outline' }}
                   />
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel textAlign={isRTL ? "right" : "left"}>{t('cancelled')}</FormLabel>
+                  <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>{t('cancelled')}</FormLabel>
                   <Switch
                     dir="ltr"
                     name="isCancelled"
                     isChecked={formData.isCancelled}
                     onChange={handleInputChange}
+                    colorScheme={formData.isCancelled ? 'red' : 'green'}
                   />
                 </FormControl>
 

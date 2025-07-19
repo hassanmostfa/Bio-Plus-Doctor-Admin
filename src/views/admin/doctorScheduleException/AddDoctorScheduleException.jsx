@@ -32,7 +32,7 @@ const AddDoctorScheduleException = () => {
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   const bgColor = useColorModeValue('white', 'gray.800');
   const inputBg = useColorModeValue('white', 'gray.700');
-  const switchBg = useColorModeValue('gray.100', 'gray.600');
+
   
   const [formData, setFormData] = useState({
     doctorId: JSON.parse(localStorage.getItem("doctor"))?.id,
@@ -171,7 +171,6 @@ const AddDoctorScheduleException = () => {
                   isChecked={formData.isCancelled}
                   onChange={handleInputChange}
                   colorScheme={formData.isCancelled ? 'red' : 'green'}
-                  bg={switchBg}
                 />
               </FormControl>
 

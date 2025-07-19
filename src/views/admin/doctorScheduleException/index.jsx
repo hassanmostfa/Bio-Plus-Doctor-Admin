@@ -39,6 +39,7 @@ const DoctorScheduleException = () => {
   const tableBg = useColorModeValue('white', 'gray.700');
   const tableRowHover = useColorModeValue('gray.50', 'gray.600');
   const switchBg = useColorModeValue('gray.100', 'gray.600');
+
   
   const [filters, setFilters] = useState({
     doctorId: JSON.parse(localStorage.getItem("doctor"))?.id,
@@ -192,7 +193,6 @@ const DoctorScheduleException = () => {
                           isChecked={exception.isCancelled}
                           onChange={() => handleToggleCancelled(exception.id, exception.isCancelled)}
                           colorScheme={exception.isCancelled ? 'red' : 'green'}
-                          bg={switchBg}
                         />
                       </Td>
                       <Td>

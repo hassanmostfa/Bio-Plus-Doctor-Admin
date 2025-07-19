@@ -145,5 +145,7 @@
   "calendarView": "Calendar view",
   "add": "Add",
   "edit": "Edit",
-  "back" : "Back"
+  "back" : "Back",
+  "search": "Search...",
+  "noResultsFound": "No results found"
 } 

@@ -34,7 +34,7 @@ const EditDoctorSchedule = () => {
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   const bgColor = useColorModeValue('white', 'gray.800');
   const inputBg = useColorModeValue('white', 'gray.700');
-  const switchBg = useColorModeValue('gray.100', 'gray.600');
+
   
   const [formData, setFormData] = useState({
     doctorId: "",
@@ -180,7 +180,6 @@ const EditDoctorSchedule = () => {
                   isChecked={formData.isOnline}
                   onChange={handleInputChange}
                   colorScheme="brand"
-                  bg={switchBg}
                 />
               </FormControl>
 
@@ -276,7 +275,6 @@ const EditDoctorSchedule = () => {
                   isChecked={formData.isActive}
                   onChange={handleInputChange}
                   colorScheme="brand"
-                  bg={switchBg}
                 />
               </FormControl>
 

@@ -10,6 +10,7 @@ import routes from './routes'; // Import your routes
 import SignInCentered from './views/auth/signIn/index';
 import ProtectedRoute from 'components/protectedRoute/ProtectedRoute';
 import { LanguageProvider } from "./components/auth/LanguageContext";
+import { SearchProvider } from "./contexts/SearchContext";
 
 export default function Main() {
   const [currentTheme, setCurrentTheme] = useState(initialTheme);
@@ -17,7 +18,8 @@ export default function Main() {
   return (
     <ChakraProvider theme={currentTheme}>
       <LanguageProvider> {/* Wrap the entire Routes component with LanguageProvider */}
-        <Routes>
+        <SearchProvider>
+          <Routes>
           <Route path="auth/*" element={<AuthLayout />} />
           <Route
             path="admin/*"
@@ -45,6 +47,7 @@ export default function Main() {
           />
           <Route path="admin/auth/sign-in" element={<SignInCentered />} />
         </Routes>
+        </SearchProvider>
       </LanguageProvider>
     </ChakraProvider>
   );
