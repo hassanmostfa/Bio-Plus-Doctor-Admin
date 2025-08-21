@@ -19,9 +19,11 @@ import { FcSalesPerformance } from "react-icons/fc";
 import { FaClinicMedical } from "react-icons/fa";
 import { useGetStatisticsQuery } from "api/doctorSlice";
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserReports() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
   const { data: statistics, isLoading } = useGetStatisticsQuery();
@@ -30,24 +32,32 @@ export default function UserReports() {
     { 
       name: t('totalAppointments'), 
       value: statistics?.data?.totalAppointments || 0, 
-      icon: MdAssignment 
+      icon: MdAssignment,
+      route: '/admin/appointments-calendar'
     },
     { 
       name: t('todayAppointments'), 
       value: statistics?.data?.todayAppointments || 0, 
-      icon: IoToday 
+      icon: IoToday,
+      route: '/admin/appointments-calendar'
     },
     { 
       name: t('totalOnlineAppointments'), 
       value: statistics?.data?.totalOnlineAppointments || 0, 
-      icon: MdOnlinePrediction 
+      icon: MdOnlinePrediction,
+      route: '/admin/appointments-calendar'
     },
     { 
       name: t('totalClinicAppointments'), 
       value: statistics?.data?.totalClinicAppointments || 0, 
-      icon: FaClinicMedical 
+      icon: FaClinicMedical,
+      route: '/admin/appointments-calendar'
     },
   ];
+
+  const handleCardClick = (route) => {
+    navigate(route);
+  };
 
   if (isLoading) {
     return <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>{t('loading')}</Box>;
@@ -57,19 +67,25 @@ export default function UserReports() {
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
         {cardData.map((card, index) => (
-          <MiniStatistics
+          <Box
             key={index}
-            startContent={
-              <IconBox
-                w="56px"
-                h="56px"
-                bg={boxBg}
-                icon={<Icon w="32px" h="32px" as={card.icon} color={brandColor} />}
-              />
-            }
-            name={card.name}
-            value={card.value}
-          />
+            cursor="pointer"
+            onClick={() => handleCardClick(card.route)}
+            _hover={{ transform: 'translateY(-2px)', transition: 'all 0.2s' }}
+          >
+            <MiniStatistics
+              startContent={
+                <IconBox
+                  w="56px"
+                  h="56px"
+                  bg={boxBg}
+                  icon={<Icon w="32px" h="32px" as={card.icon} color={brandColor} />}
+                />
+              }
+              name={card.name}
+              value={card.value}
+            />
+          </Box>
         ))}
       </SimpleGrid>
 
