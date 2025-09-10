@@ -10,7 +10,7 @@ export const clinicApi = createApi({
     baseUrl,
     prepareHeaders: (headers) => {
       // Get the token from localStorage (or Redux state)
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("doctor_token");
 
       // If a token exists, add it to the headers
       if (token) {
@@ -22,7 +22,17 @@ export const clinicApi = createApi({
   }),
   endpoints: (builder) => ({
     getClinics: builder.query({
-      query: () => "/admin/clinics",
+      query: (params = {}) => {
+        const { page = 1, limit = 10, search = '' } = params;
+        const queryParams = new URLSearchParams();
+        
+        if (page) queryParams.append('page', page);
+        if (limit) queryParams.append('limit', limit);
+        if (search) queryParams.append('search', search);
+        
+        const queryString = queryParams.toString();
+        return `/admin/clinics${queryString ? `?${queryString}` : ''}`;
+      },
     }),
     getClinic: builder.query({
       query: (id) => `/admin/clinics/${id}`,

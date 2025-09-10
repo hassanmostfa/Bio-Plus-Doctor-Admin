@@ -9,6 +9,7 @@ import { RiLogoutCircleLine } from "react-icons/ri";
 import { LuClipboardList } from "react-icons/lu";
 import { MdSchedule } from "react-icons/md";
 import { MdEventBusy } from "react-icons/md";
+import { MdLocalHospital } from "react-icons/md";
 
 // Admin Imports
 import MainDashboard from 'views/admin/default';
@@ -29,6 +30,12 @@ import EditDoctorSchedule from 'views/admin/doctorSchedule/EditDoctorSchedule';
 import DoctorScheduleException from "views/admin/doctorScheduleException/index";
 import AddDoctorScheduleException from "views/admin/doctorScheduleException/AddDoctorScheduleException";
 import EditDoctorScheduleException from "views/admin/doctorScheduleException/EditDoctorScheduleException";
+
+// Clinic Imports
+import Clinics from 'views/admin/clinics/Clinics';
+import AddClinic from 'views/admin/clinics/AddClinic';
+import EditClinic from 'views/admin/clinics/EditClinic';
+import ShowClinic from 'views/admin/clinics/ShowClinic';
 
 const routes = [
   {
@@ -171,6 +178,36 @@ const routes = [
     path: '/doctor-schedule-exceptions/edit/:id',
     icon: <Icon as={MdEventBusy} width="20px" height="20px" color="inherit" />,
     component: <EditDoctorScheduleException />,
+  },
+  // Clinic Routes
+  {
+    name: 'clinics.allClinics',
+    layout: '/admin',
+    path: '/clinics',
+    component: <Clinics />,
+    icon: <Icon as={MdLocalHospital} width="20px" height="20px" color="inherit" />,
+    showInSidebar: true,
+  },
+  {
+    name: 'clinics.addNewClinic',
+    layout: '/admin',
+    path: '/add-clinic',
+    component: <AddClinic />,
+    showInSidebar: false,
+  },
+  {
+    name: 'clinics.editClinic',
+    layout: '/admin',
+    path: '/edit-clinic/:id',
+    component: <EditClinic />,
+    showInSidebar: false,
+  },
+  {
+    name: 'clinics.clinicDetails',
+    layout: '/admin',
+    path: '/show-clinic/:id',
+    component: <ShowClinic />,
+    showInSidebar: false,
   },
 // {
 //     name: 'Appointments',
