@@ -1,25 +1,10 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-// Define your base URL
-const baseUrl = "https://back.biopluskw.com/api/v1";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQueryWithRedirect } from './baseQuery';
 
 // Create the API slice using RTK Query
 export const roleApi = createApi({
   reducerPath: "roleApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl,
-    prepareHeaders: (headers) => {
-      // Get the doctor_token from localStorage (or Redux state)
-      const doctor_token = localStorage.getItem("doctor_token");
-
-      // If a doctor_token exists, add it to the headers
-      if (doctor_token) {
-        headers.set("Authorization", `Bearer ${doctor_token}`);
-      }
-
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithRedirect,
 
   endpoints: (builder) => ({
     getRoles: builder.query({

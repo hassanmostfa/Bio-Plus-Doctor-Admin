@@ -8,6 +8,10 @@ import { doctorApi } from "api/doctorSlice";
 import { clinicApi } from "api/clinicSlice";
 import { doctorScheduleExceptionApi } from "api/doctorScheduleExceptionSlice";
 import authReducer from "./authSlice";
+import { filesApi } from "api/filesSlice";
+import { specializationApi } from "api/doctorSpecializationSlice";
+import { patientsApi } from "api/patientsSlice";
+import { appointmentsApi } from "api/appointmentsSlice";
 
 // import { userApi, authReducer } from './userSlice';
 
@@ -21,6 +25,10 @@ export const store = configureStore({
     [clinicApi.reducerPath]: clinicApi.reducer,
     [doctorScheduleApi.reducerPath]: doctorScheduleApi.reducer,
     [doctorScheduleExceptionApi.reducerPath]: doctorScheduleExceptionApi.reducer,
+    [filesApi.reducerPath]: filesApi.reducer,
+    [specializationApi.reducerPath]: specializationApi.reducer,
+    [patientsApi.reducerPath]: patientsApi.reducer,
+    [appointmentsApi.reducerPath]: appointmentsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -30,7 +38,11 @@ export const store = configureStore({
       doctorScheduleApi.middleware,
       doctorApi.middleware,
       clinicApi.middleware,
-      doctorScheduleExceptionApi.middleware
+      doctorScheduleExceptionApi.middleware,
+      filesApi.middleware,
+      specializationApi.middleware,
+      patientsApi.middleware,
+      appointmentsApi.middleware
     ),
 });
 

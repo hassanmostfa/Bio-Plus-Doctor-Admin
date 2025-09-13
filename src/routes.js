@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from '@chakra-ui/react';
-import {MdHome,} from 'react-icons/md';
+import {MdHome, MdPerson, MdPeople} from 'react-icons/md';
 
 import { MdAdminPanelSettings } from 'react-icons/md';
 import { TiMinus } from 'react-icons/ti';
@@ -30,7 +30,10 @@ import EditDoctorSchedule from 'views/admin/doctorSchedule/EditDoctorSchedule';
 import DoctorScheduleException from "views/admin/doctorScheduleException/index";
 import AddDoctorScheduleException from "views/admin/doctorScheduleException/AddDoctorScheduleException";
 import EditDoctorScheduleException from "views/admin/doctorScheduleException/EditDoctorScheduleException";
-
+import Profile from 'views/admin/profile/Profile';
+import FreeSessions from 'views/admin/doctorSchedule/FreeSessions';
+import Patients from 'views/admin/patients/Patients';
+import PatientAppointments from 'views/admin/patients/PatientAppointments';
 // Clinic Imports
 import Clinics from 'views/admin/clinics/Clinics';
 import AddClinic from 'views/admin/clinics/AddClinic';
@@ -127,20 +130,28 @@ const routes = [
   //   icon: <Icon as={FaRegCalendarDays} width="20px" height="20px" color="inherit" />,
   //   showInSidebar: true,
   // },
-  {
-    name: 'calendarView',
-    layout: '/admin',
-    path: '/appointments-calendar',
-    component: <AppointmentsCalendar />,
-    icon: <Icon as={FaRegCalendarDays} width="20px" height="20px" color="inherit" />,
-    showInSidebar: true,
-  },
+  // {
+  //   name: 'calendarView',
+  //   layout: '/admin',
+  //   path: '/appointments-calendar',
+  //   component: <AppointmentsCalendar />,
+  //   icon: <Icon as={FaRegCalendarDays} width="20px" height="20px" color="inherit" />,
+  //   showInSidebar: true,
+  // },
   {
     name: 'doctorSchedules',
     layout: '/admin',
     path: '/doctor-schedules',
     component: <DoctorSchedule />,
     icon: <Icon as={MdSchedule} width="20px" height="20px" color="inherit" />,
+    showInSidebar: true,
+  },
+  {
+    name: 'freeSessions',
+    layout: '/admin',
+    path: '/free-sessions',
+    component: <FreeSessions />,
+    icon: <Icon as={MdEventBusy} width="20px" height="20px" color="inherit" />,
     showInSidebar: true,
   },
   {
@@ -155,6 +166,13 @@ const routes = [
     layout: '/admin',
     path: '/doctor-schedules/edit/:id',
     component: <EditDoctorSchedule />,
+    showInSidebar: false,
+  },
+  {
+    name: 'Free Sessions',
+    layout: '/admin',
+    path: '/doctor-schedules/free-sessions',
+    component: <FreeSessions />,
     showInSidebar: false,
   },
   {
@@ -181,7 +199,7 @@ const routes = [
   },
   // Clinic Routes
   {
-    name: 'clinics.allClinics',
+    name: 'myClinics',
     layout: '/admin',
     path: '/clinics',
     component: <Clinics />,
@@ -189,21 +207,21 @@ const routes = [
     showInSidebar: true,
   },
   {
-    name: 'clinics.addNewClinic',
+    name: 'Add New Clinic',
     layout: '/admin',
     path: '/add-clinic',
     component: <AddClinic />,
     showInSidebar: false,
   },
   {
-    name: 'clinics.editClinic',
+    name: 'Edit Clinic',
     layout: '/admin',
     path: '/edit-clinic/:id',
     component: <EditClinic />,
     showInSidebar: false,
   },
   {
-    name: 'clinics.clinicDetails',
+    name: 'Clinic Details',
     layout: '/admin',
     path: '/show-clinic/:id',
     component: <ShowClinic />,
@@ -219,7 +237,38 @@ const routes = [
 //     component: <Appointments />,
 //     showInSidebar: true,
 //   },
-  
+{
+  name: 'profile',
+  layout: '/admin',
+  path: '/profile',
+  component: <Profile />,
+  icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+  showInSidebar: true,
+},
+{
+  name: 'patients',
+  layout: '/admin',
+  path: '/patients',
+  component: <Patients />,
+  icon: <Icon as={MdPeople} width="20px" height="20px" color="inherit" />,
+  showInSidebar: true,
+},
+{
+  name: 'Patient Appointments',
+  layout: '/admin',
+  path: '/patients/:patientId/appointments',
+  component: <PatientAppointments />,
+  showInSidebar: false,
+},
+{
+  name: 'appointments',
+  layout: '/admin',
+  path: '/appointments',
+  component: <Appointments />,
+  icon: <Icon as={LuClipboardList} width="20px" height="20px" color="inherit" />,
+  showInSidebar: true,
+},
+
   {
     name: 'logout',
     path: '/logout',

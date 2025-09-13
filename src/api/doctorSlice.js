@@ -1,31 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-// Define your base URL
-const baseUrl = "https://back.biopluskw.com/api/v1";
-
-// Custom baseQuery with redirect on 401
-const baseQueryWithRedirect = async (args, api, extraOptions) => {
-  const rawBaseQuery = fetchBaseQuery({
-    baseUrl,
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem("doctor_token");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  });
-
-  const result = await rawBaseQuery(args, api, extraOptions);
-
-  if (result?.error?.status === 401) {
-    // Remove token and redirect to login
-    localStorage.removeItem("doctor_token");
-    window.location.href = "/admin/auth/sign-in"; // ⬅️ redirect
-  }
-
-  return result;
-};
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQueryWithRedirect } from './baseQuery';
 
 // Create the API slice using RTK Query
 export const doctorApi = createApi({
@@ -73,6 +47,18 @@ export const doctorApi = createApi({
         url: "/admin/stats/doctor",
       }),
     }),
+    getDoctorProfile: builder.query({
+      query: () => ({
+        url: "/admin/doctor-profile/",
+      }),
+    }),
+    updateDoctorProfile: builder.mutation({
+      query: (data) => ({
+        url: "/admin/doctor-profile/",
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -85,4 +71,6 @@ export const {
   useUpdateDoctorMutation,
   useDeleteDoctorMutation,
   useGetStatisticsQuery,
+  useGetDoctorProfileQuery,
+  useUpdateDoctorProfileMutation,
 } = doctorApi;

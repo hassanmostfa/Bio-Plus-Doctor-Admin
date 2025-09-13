@@ -1,19 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-const baseUrl = "https://back.biopluskw.com/api/v1";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQueryWithRedirect } from './baseQuery';
 
 export const doctorScheduleApi = createApi({
   reducerPath: "doctorScheduleApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl,
-    prepareHeaders: (headers) => {
-      const doctor_token = localStorage.getItem("doctor_token");
-      if (doctor_token) {
-        headers.set("Authorization", `Bearer ${doctor_token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithRedirect,
 
   endpoints: (builder) => ({
     // Get all doctor schedules
@@ -29,6 +19,7 @@ export const doctorScheduleApi = createApi({
           dayOfWeek: params?.dayOfWeek,
           isOnline: params?.isOnline,
           isActive: params?.isActive,
+          isFreeSession: params?.isFreeSession,
         },
       }),
     }),

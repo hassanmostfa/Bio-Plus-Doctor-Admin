@@ -1,7 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-// Define your base URL
-const baseUrl = "https://back.biopluskw.com/api/v1"; // Replace with your actual base URL
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQueryWithRedirect } from './baseQuery';
 
 // Function to create request
 const createRequest = (url) => ({ url });
@@ -9,20 +7,7 @@ const createRequest = (url) => ({ url });
 // Create the API slice using RTK Query
 export const apiService = createApi({
   reducerPath: "apiService",
-  baseQuery: fetchBaseQuery({
-    baseUrl,
-    prepareHeaders: (headers) => {
-      // Get the doctor_token from localStorage (or Redux state)
-      const doctor_token = localStorage.getItem("doctor_token");
-
-      // If a doctor_token exists, add it to the headers
-      if (doctor_token) {
-        headers.set("Authorization", `Bearer ${doctor_token}`);
-      }
-
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithRedirect,
 
   endpoints: (builder) => ({
     // Example login request (modify this as per your API endpoint)

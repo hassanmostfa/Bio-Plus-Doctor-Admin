@@ -1,7 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-// Define your base URL
-const baseUrl = "https://back.biopluskw.com/api/v1";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQueryWithRedirect } from './baseQuery';
 
 // Function to create request
 const createRequest = (url) => ({ url });
@@ -9,16 +7,7 @@ const createRequest = (url) => ({ url });
 // Create the API slice using RTK Query
 export const appointmentApi = createApi({
   reducerPath: "appointmentApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl,
-    prepareHeaders: (headers) => {
-      const doctor_token = localStorage.getItem("doctor_token");
-      if (doctor_token) {
-        headers.set("Authorization", `Bearer ${doctor_token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithRedirect,
 
   endpoints: (builder) => ({
     getAppointments: builder.query({

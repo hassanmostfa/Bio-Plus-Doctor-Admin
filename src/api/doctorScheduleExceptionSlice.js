@@ -1,19 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-const baseUrl = "https://back.biopluskw.com/api/v1";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQueryWithRedirect } from './baseQuery';
 
 export const doctorScheduleExceptionApi = createApi({
   reducerPath: "doctorScheduleExceptionApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl,
-    prepareHeaders: (headers) => {
-      const doctor_token = localStorage.getItem("doctor_token");
-      if (doctor_token) {
-        headers.set("Authorization", `Bearer ${doctor_token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithRedirect,
   tagTypes: ["DoctorScheduleException"],
   endpoints: (builder) => ({
     // Get all doctor schedule exceptions

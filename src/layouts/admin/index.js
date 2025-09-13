@@ -72,8 +72,13 @@ const AdminLayout = (props) => {
 
   // Update active route whenever location changes
   useEffect(() => {
-    const breadcrumbPath = getBreadcrumbPath(location.pathname, routes);
-    setActiveRoute(breadcrumbPath);
+    // Hide breadcrumb for patient appointments route
+    if (location.pathname.includes('/patients/') && location.pathname.includes('/appointments')) {
+      setActiveRoute('');
+    } else {
+      const breadcrumbPath = getBreadcrumbPath(location.pathname, routes);
+      setActiveRoute(breadcrumbPath);
+    }
   }, [location]);
 
   // Render routes for the app, including subroutes

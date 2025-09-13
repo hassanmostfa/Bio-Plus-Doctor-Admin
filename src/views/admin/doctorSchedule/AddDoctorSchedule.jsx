@@ -46,6 +46,7 @@ const AddDoctorSchedule = () => {
     startTime: "",
     endTime: "",
     isActive: true,
+    isFreeSession: false,
   });
 
   const { data: doctors } = useGetDoctorsQuery();
@@ -134,18 +135,46 @@ const AddDoctorSchedule = () => {
         <Box px="25px" pb="25px">
           <form onSubmit={handleSubmit}>
             <VStack spacing={4} align="stretch">
-              <FormControl>
-                <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>
-                  {t('onlineConsultation')}
-                </FormLabel>
-                <Switch
-                  dir="ltr"
-                  name="isOnline"
-                  isChecked={formData.isOnline}
-                  onChange={handleInputChange}
-                  colorScheme="brand"
-                />
-              </FormControl>
+              <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                <FormControl>
+                  <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>
+                    {t('onlineConsultation')}
+                  </FormLabel>
+                  <Switch
+                    dir="ltr"
+                    name="isOnline"
+                    isChecked={formData.isOnline}
+                    onChange={handleInputChange}
+                    colorScheme="brand"
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>
+                    {t('active')}
+                  </FormLabel>
+                  <Switch
+                    dir="ltr"
+                    name="isActive"
+                    isChecked={formData.isActive}
+                    onChange={handleInputChange}
+                    colorScheme="brand"
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>
+                    {t('isFreeSession')}
+                  </FormLabel>
+                  <Switch
+                    dir="ltr"
+                    name="isFreeSession"
+                    isChecked={formData.isFreeSession}
+                    onChange={handleInputChange}
+                    colorScheme="brand"
+                  />
+                </FormControl>
+              </Grid>
 
               <FormControl isRequired>
                 <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>
@@ -229,18 +258,6 @@ const AddDoctorSchedule = () => {
                 />
               </FormControl>
 
-              <FormControl>
-                <FormLabel textAlign={isRTL ? "right" : "left"} color={textColor}>
-                  {t('active')}
-                </FormLabel>
-                <Switch
-                  dir="ltr"
-                  name="isActive"
-                  isChecked={formData.isActive}
-                  onChange={handleInputChange}
-                  colorScheme="brand"
-                />
-              </FormControl>
 
               <Button 
                 type="submit"
