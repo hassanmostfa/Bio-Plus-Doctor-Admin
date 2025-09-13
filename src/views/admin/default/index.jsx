@@ -201,7 +201,7 @@ export default function UserReports() {
                           </Badge>
                         </Td>
                         <Td color={textColor}>
-                          ${appointment.fee}
+                          {appointment.fee} kwd
                         </Td>
                       </Tr>
                     );
